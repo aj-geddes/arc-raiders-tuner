@@ -15,15 +15,246 @@ import shutil
 import json
 import hashlib
 import re
+import sys
+import platform
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from dataclasses import dataclass, field
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# =============================================================================
+# PLATFORM DETECTION
+# =============================================================================
+
+ARC_RAIDERS_APP_ID = "1808500"
+IS_WINDOWS = sys.platform == "win32"
+IS_LINUX = sys.platform.startswith("linux")
+
+# =============================================================================
+# STEAM PATH RESOLUTION
+# =============================================================================
+
+def find_steam_path() -> Optional[Path]:
+    """Find the Steam installation directory based on platform."""
+    if IS_WINDOWS:
+        # Try common Windows Steam paths
+        common_paths = [
+            Path("C:/Program Files (x86)/Steam"),
+            Path("C:/Program Files/Steam"),
+        ]
+
+        # Also try registry lookup
+        try:
+            import winreg
+            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\Valve\Steam")
+            install_path, _ = winreg.QueryValueEx(key, "InstallPath")
+            winreg.CloseKey(key)
+            if install_path:
+                common_paths.insert(0, Path(install_path))
+        except Exception:
+            pass  # Registry lookup failed, continue with common paths
+
+        for path in common_paths:
+            if path.exists() and path.is_dir():
+                logger.info(f"Found Steam at: {path}")
+                return path
+
+    elif IS_LINUX:
+        # Try common Linux Steam paths
+        home = Path.home()
+        common_paths = [
+            home / ".local/share/Steam",
+            home / ".steam/steam",
+            home / ".var/app/com.valvesoftware.Steam/.local/share/Steam",  # Flatpak
+        ]
+
+        for path in common_paths:
+            if path.exists() and path.is_dir():
+                logger.info(f"Found Steam at: {path}")
+                return path
+
+    logger.warning("Steam installation not found")
+    return None
+
+
+def parse_vdf(vdf_path: Path) -> Optional[Dict]:
+    """Parse a simple VDF (Valve Data Format) file."""
+    try:
+        with open(vdf_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+
+        result = {}
+        stack = [result]
+        current_key = None
+
+        # Simple VDF parser
+        for line in content.split('\n'):
+            line = line.strip()
+            if not line or line.startswith('//'):
+                continue
+
+            if line == '{':
+                if current_key:
+                    new_dict = {}
+                    stack[-1][current_key] = new_dict
+                    stack.append(new_dict)
+                    current_key = None
+            elif line == '}':
+                if len(stack) > 1:
+                    stack.pop()
+            else:
+                # Try to parse key-value pair
+                parts = line.split('"')
+                if len(parts) >= 3:
+                    key = parts[1]
+                    if len(parts) >= 4:
+                        value = parts[3] if len(parts) > 3 else ""
+                        stack[-1][key] = value
+                    else:
+                        current_key = key
+
+        return result
+    except Exception as e:
+        logger.error(f"Failed to parse VDF file {vdf_path}: {e}")
+        return None
+
+
+def parse_vdf_library_folders(vdf_content: str) -> List[Path]:
+    """
+    Parse libraryfolders.vdf content and extract library paths.
+
+    Args:
+        vdf_content: String content of libraryfolders.vdf file
+
+    Returns:
+        List of Path objects for each Steam library folder
+    """
+    libraries = []
+
+    try:
+        # Simple VDF parser for library folders
+        lines = vdf_content.split('\n')
+        current_section = None
+        current_path = None
+
+        for line in lines:
+            line = line.strip()
+
+            # Skip empty lines and comments
+            if not line or line.startswith('//'):
+                continue
+
+            # Check for section number (library entry)
+            parts = line.split('"')
+            if len(parts) >= 2:
+                key = parts[1]
+
+                # If it's a numeric key, it's a library section
+                if key.isdigit():
+                    current_section = key
+                    current_path = None
+                # If we're in a library section and find "path" key
+                elif key == "path" and current_section is not None:
+                    if len(parts) >= 4:
+                        path_value = parts[3]
+                        if path_value:
+                            libraries.append(Path(path_value))
+
+    except Exception as e:
+        logger.error(f"Failed to parse VDF library folders: {e}")
+        return []
+
+    return libraries
+
+
+def find_steam_libraries() -> List[Path]:
+    """Find all Steam library folders by parsing libraryfolders.vdf."""
+    steam_path = find_steam_path()
+    if not steam_path:
+        return []
+
+    library_folders_vdf = steam_path / "steamapps" / "libraryfolders.vdf"
+    if not library_folders_vdf.exists():
+        logger.warning(f"libraryfolders.vdf not found at {library_folders_vdf}")
+        return [steam_path]  # Return just the main Steam path
+
+    try:
+        with open(library_folders_vdf, 'r', encoding='utf-8', errors='ignore') as f:
+            vdf_content = f.read()
+
+        libraries = parse_vdf_library_folders(vdf_content)
+
+        # Add the main Steam path if not already included
+        if steam_path not in libraries:
+            libraries.insert(0, steam_path)
+
+        # Filter to only existing paths
+        libraries = [lib for lib in libraries if lib.exists() and lib.is_dir()]
+
+        for lib in libraries:
+            logger.info(f"Found Steam library: {lib}")
+
+        return libraries if libraries else [steam_path]
+
+    except Exception as e:
+        logger.error(f"Failed to read libraryfolders.vdf: {e}")
+        return [steam_path]
+
+
+def find_proton_prefix(app_id: str) -> Optional[Path]:
+    """
+    Find the Proton compatdata directory for a given Steam app ID.
+
+    Returns the path to the compatdata directory (e.g., .../compatdata/1808500),
+    NOT the pfx subdirectory. Callers should append 'pfx' if needed.
+    """
+    if IS_WINDOWS:
+        return None  # Proton is Linux-only
+
+    libraries = find_steam_libraries()
+
+    for library in libraries:
+        compatdata_path = library / "steamapps" / "compatdata" / app_id
+        if compatdata_path.exists():
+            # Check that pfx directory exists to validate this is a real proton prefix
+            prefix_path = compatdata_path / "pfx"
+            if prefix_path.exists() and prefix_path.is_dir():
+                logger.info(f"Found Proton compatdata for app {app_id}: {compatdata_path}")
+                return compatdata_path  # Return compatdata, not pfx
+
+    logger.warning(f"Proton prefix not found for app {app_id}")
+    return None
+
+
+def get_default_config_path() -> Optional[Path]:
+    """Get the platform-appropriate default config path for Arc Raiders."""
+    if IS_WINDOWS:
+        localappdata = os.environ.get('LOCALAPPDATA', '')
+        if not localappdata:
+            # Fallback to constructing path
+            localappdata = str(Path.home() / "AppData" / "Local")
+        return Path(localappdata) / "PioneerGame" / "Saved" / "Config" / "WindowsClient" / "GameUserSettings.ini"
+
+    elif IS_LINUX:
+        # Find Proton compatdata directory for Arc Raiders
+        compatdata_path = find_proton_prefix(ARC_RAIDERS_APP_ID)
+        if compatdata_path:
+            # Append pfx and the Windows path structure
+            return compatdata_path / "pfx" / "drive_c" / "users" / "steamuser" / "AppData" / "Local" / "PioneerGame" / "Saved" / "Config" / "WindowsClient" / "GameUserSettings.ini"
+        else:
+            # Can't find Proton prefix - user will need to manually locate the file
+            logger.warning("Proton prefix not found - Arc Raiders may not be installed or hasn't been run yet")
+            return None
+
+    else:
+        # Unsupported platform
+        logger.error(f"Unsupported platform: {sys.platform}")
+        return None
 
 # =============================================================================
 # CONFIGURATION DEFINITIONS
@@ -715,9 +946,10 @@ PRESETS = {
 
 class ConfigManager:
     """Handles reading, writing, and backing up Arc Raiders configuration files."""
-    
+
     # Default config path - Arc Raiders (PioneerGame) UE5 location
-    DEFAULT_CONFIG_PATH = Path(os.environ.get('LOCALAPPDATA', '')) / "PioneerGame" / "Saved" / "Config" / "WindowsClient" / "GameUserSettings.ini"
+    # Automatically determined based on platform (Windows/Linux/SteamOS)
+    DEFAULT_CONFIG_PATH = get_default_config_path()
     
     def __init__(self):
         self.config_path: Optional[Path] = None
@@ -731,7 +963,11 @@ class ConfigManager:
             self.config_path = Path(config_path)
         else:
             self.config_path = self.DEFAULT_CONFIG_PATH
-            
+
+        if not self.config_path:
+            logger.error("Could not determine default config path. Please manually locate the config file.")
+            return False
+
         if not self.config_path.exists():
             logger.warning(f"Config file not found at {self.config_path}")
             return False
@@ -751,17 +987,29 @@ class ConfigManager:
         try:
             # Resolve to absolute path
             resolved = path.resolve()
-            
+
             # Check it's not trying to escape to system directories
-            forbidden_paths = [
-                Path("C:/Windows"),
-                Path("C:/Program Files"),
-                Path("C:/Program Files (x86)"),
-                Path("/etc"),
-                Path("/usr"),
-                Path("/bin"),
-            ]
-            
+            forbidden_paths = []
+
+            if IS_WINDOWS:
+                forbidden_paths = [
+                    Path("C:/Windows"),
+                    Path("C:/Program Files"),
+                    Path("C:/Program Files (x86)"),
+                ]
+            elif IS_LINUX:
+                forbidden_paths = [
+                    Path("/etc"),
+                    Path("/usr"),
+                    Path("/bin"),
+                    Path("/sbin"),
+                    Path("/boot"),
+                    Path("/sys"),
+                    Path("/proc"),
+                    Path("/dev"),
+                    Path("/root"),
+                ]
+
             for forbidden in forbidden_paths:
                 if forbidden.exists():
                     try:
@@ -770,12 +1018,12 @@ class ConfigManager:
                         return False
                     except ValueError:
                         pass  # Not a subpath, which is good
-                        
+
             # Must have .ini extension for config files
             if path.suffix.lower() not in ['.ini', '.json', '']:
                 logger.error(f"Invalid file extension: {path}")
                 return False
-                
+
             return True
         except Exception as e:
             logger.error(f"Path validation error: {e}")

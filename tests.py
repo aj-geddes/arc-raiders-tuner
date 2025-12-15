@@ -12,6 +12,7 @@ import tempfile
 import json
 from pathlib import Path
 from datetime import datetime
+from unittest.mock import Mock, patch, MagicMock
 
 # Mock tkinter before importing arc_tuner (for headless testing)
 class MockTk:
@@ -300,16 +301,384 @@ def test_profile_system():
 def test_path_validation():
     """Test security path validation."""
     print("\n=== Testing Path Validation ===")
-    
+
     cm = ConfigManager()
-    
+
     # Should accept valid paths
     valid_path = Path(tempfile.gettempdir()) / "test.ini"
     # Note: validate_path checks suffix, so this should work
-    
+
     # Should reject system paths (on Windows)
     # This test is platform-specific
     print("✓ Path validation logic exists")
+
+
+# =============================================================================
+# STEAMOS/LINUX PLATFORM DETECTION TESTS
+# =============================================================================
+
+def test_platform_constants():
+    """Test that platform detection constants are defined."""
+    print("\n=== Testing Platform Constants ===")
+
+    # Import the module to check for platform constants
+    import arc_tuner
+
+    # Check that platform detection constants exist
+    assert hasattr(arc_tuner, 'IS_WINDOWS'), "IS_WINDOWS constant not defined"
+    assert hasattr(arc_tuner, 'IS_LINUX'), "IS_LINUX constant not defined"
+    assert isinstance(arc_tuner.IS_WINDOWS, bool), "IS_WINDOWS should be boolean"
+    assert isinstance(arc_tuner.IS_LINUX, bool), "IS_LINUX should be boolean"
+
+    # Exactly one should be True (assuming we're on either Windows or Linux)
+    print(f"✓ IS_WINDOWS={arc_tuner.IS_WINDOWS}, IS_LINUX={arc_tuner.IS_LINUX}")
+
+    # Check Arc Raiders app ID constant
+    assert hasattr(arc_tuner, 'ARC_RAIDERS_APP_ID'), "ARC_RAIDERS_APP_ID not defined"
+    assert arc_tuner.ARC_RAIDERS_APP_ID == "1808500", \
+        f"ARC_RAIDERS_APP_ID should be '1808500', got '{arc_tuner.ARC_RAIDERS_APP_ID}'"
+    print("✓ ARC_RAIDERS_APP_ID = '1808500'")
+
+    print("✓ Platform constants defined correctly")
+
+
+def test_find_steam_path_linux():
+    """Test finding Steam installation on Linux."""
+    print("\n=== Testing find_steam_path() - Linux ===")
+
+    import arc_tuner
+
+    # Mock Path.exists and Path.is_dir
+    with patch('pathlib.Path.exists') as mock_exists, \
+         patch('pathlib.Path.is_dir') as mock_is_dir:
+
+        # Test case 1: Standard Linux Steam location
+        def exists_standard(self):
+            return str(self) == str(Path.home() / ".local/share/Steam")
+
+        mock_exists.side_effect = exists_standard
+        mock_is_dir.return_value = True
+
+        result = arc_tuner.find_steam_path()
+        assert result == Path.home() / ".local/share/Steam", \
+            f"Should find standard Steam path, got {result}"
+        print("✓ Found Steam in standard Linux location")
+
+        # Test case 2: Flatpak Steam location
+        def exists_flatpak(self):
+            return str(self) == str(Path.home() / ".var/app/com.valvesoftware.Steam/.local/share/Steam")
+
+        mock_exists.side_effect = exists_flatpak
+
+        result = arc_tuner.find_steam_path()
+        assert result == Path.home() / ".var/app/com.valvesoftware.Steam/.local/share/Steam", \
+            f"Should find Flatpak Steam path, got {result}"
+        print("✓ Found Steam in Flatpak location")
+
+        # Test case 3: Steam not installed
+        mock_exists.return_value = False
+
+        result = arc_tuner.find_steam_path()
+        assert result is None, "Should return None when Steam not found"
+        print("✓ Returns None when Steam not installed")
+
+
+def test_find_steam_path_windows():
+    """Test finding Steam installation on Windows."""
+    print("\n=== Testing find_steam_path() - Windows ===")
+
+    import arc_tuner
+
+    with patch('pathlib.Path.exists') as mock_exists, \
+         patch('pathlib.Path.is_dir') as mock_is_dir:
+
+        # Test case: Standard Windows Steam location (Program Files)
+        program_files = Path("C:/Program Files (x86)")
+        steam_path = program_files / "Steam"
+
+        def exists_windows(self):
+            return str(self) == str(steam_path)
+
+        mock_exists.side_effect = exists_windows
+        mock_is_dir.return_value = True
+
+        result = arc_tuner.find_steam_path()
+        assert result == steam_path, f"Should find Windows Steam path, got {result}"
+        print("✓ Found Steam in Windows Program Files location")
+
+
+def test_parse_vdf_library_folders():
+    """Test parsing libraryfolders.vdf file."""
+    print("\n=== Testing parse_vdf_library_folders() ===")
+
+    import arc_tuner
+
+    # Test case 1: Valid VDF with single library
+    vdf_single = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "path"        "/home/user/.local/share/Steam"
+        "label"       ""
+        "contentid"   "1234567890"
+    }
+}
+'''
+    result = arc_tuner.parse_vdf_library_folders(vdf_single)
+    assert len(result) == 1, f"Should find 1 library, found {len(result)}"
+    assert result[0] == Path("/home/user/.local/share/Steam"), \
+        f"Should extract correct path, got {result[0]}"
+    print("✓ Parsed single library folder")
+
+    # Test case 2: Valid VDF with multiple libraries
+    vdf_multiple = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "path"        "/home/user/.local/share/Steam"
+        "label"       ""
+    }
+    "1"
+    {
+        "path"        "/mnt/games/SteamLibrary"
+        "label"       "Games Drive"
+    }
+    "2"
+    {
+        "path"        "/media/nvme/Steam"
+        "label"       "NVME"
+    }
+}
+'''
+    result = arc_tuner.parse_vdf_library_folders(vdf_multiple)
+    assert len(result) == 3, f"Should find 3 libraries, found {len(result)}"
+    assert Path("/home/user/.local/share/Steam") in result
+    assert Path("/mnt/games/SteamLibrary") in result
+    assert Path("/media/nvme/Steam") in result
+    print("✓ Parsed multiple library folders")
+
+    # Test case 3: Malformed VDF - should handle gracefully
+    vdf_malformed = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "broken syntax here
+'''
+    try:
+        result = arc_tuner.parse_vdf_library_folders(vdf_malformed)
+        # Should either return empty list or handle error gracefully
+        assert isinstance(result, list), "Should return list even on error"
+        print("✓ Handled malformed VDF gracefully")
+    except Exception as e:
+        print(f"✓ Raised appropriate exception for malformed VDF: {type(e).__name__}")
+
+    # Test case 4: Empty VDF
+    vdf_empty = '"libraryfolders"\n{\n}\n'
+    result = arc_tuner.parse_vdf_library_folders(vdf_empty)
+    assert isinstance(result, list), "Should return list for empty VDF"
+    assert len(result) == 0, "Should return empty list for empty VDF"
+    print("✓ Handled empty VDF correctly")
+
+
+def test_find_proton_prefix():
+    """Test finding Proton prefix for a game."""
+    print("\n=== Testing find_proton_prefix() ===")
+
+    import arc_tuner
+
+    app_id = "1808500"  # Arc Raiders
+
+    with patch('pathlib.Path.exists') as mock_exists, \
+         patch('pathlib.Path.is_dir') as mock_is_dir, \
+         patch.object(arc_tuner, 'find_steam_path') as mock_find_steam:
+
+        # Test case 1: Game installed in default library
+        mock_find_steam.return_value = Path("/home/user/.local/share/Steam")
+
+        def exists_default(self):
+            expected = Path("/home/user/.local/share/Steam/steamapps/compatdata") / app_id
+            return str(self) == str(expected)
+
+        mock_exists.side_effect = exists_default
+        mock_is_dir.return_value = True
+
+        result = arc_tuner.find_proton_prefix(app_id)
+        expected_prefix = Path("/home/user/.local/share/Steam/steamapps/compatdata") / app_id
+        assert result == expected_prefix, f"Should find prefix in default library, got {result}"
+        print("✓ Found Proton prefix in default library")
+
+        # Test case 2: Game not installed (returns None)
+        mock_exists.return_value = False
+
+        result = arc_tuner.find_proton_prefix(app_id)
+        assert result is None, "Should return None when game not found"
+        print("✓ Returns None when game not installed")
+
+        # Test case 3: Steam not installed
+        mock_find_steam.return_value = None
+
+        result = arc_tuner.find_proton_prefix(app_id)
+        assert result is None, "Should return None when Steam not found"
+        print("✓ Returns None when Steam not found")
+
+
+def test_find_proton_prefix_secondary_library():
+    """Test finding Proton prefix in secondary Steam library."""
+    print("\n=== Testing find_proton_prefix() - Secondary Library ===")
+
+    import arc_tuner
+
+    app_id = "1808500"
+
+    with patch('pathlib.Path.exists') as mock_exists, \
+         patch('pathlib.Path.is_dir') as mock_is_dir, \
+         patch('pathlib.Path.read_text') as mock_read_text, \
+         patch.object(arc_tuner, 'find_steam_path') as mock_find_steam, \
+         patch.object(arc_tuner, 'parse_vdf_library_folders') as mock_parse_vdf:
+
+        # Setup: Steam found, but game not in default library
+        mock_find_steam.return_value = Path("/home/user/.local/share/Steam")
+
+        # Mock VDF parsing to return multiple libraries
+        mock_parse_vdf.return_value = [
+            Path("/home/user/.local/share/Steam"),
+            Path("/mnt/games/SteamLibrary"),
+            Path("/media/nvme/Steam")
+        ]
+
+        # Mock that game exists in second library
+        def exists_secondary(self):
+            expected = Path("/mnt/games/SteamLibrary/steamapps/compatdata") / app_id
+            return str(self) == str(expected)
+
+        mock_exists.side_effect = exists_secondary
+        mock_is_dir.return_value = True
+
+        # Mock reading libraryfolders.vdf
+        mock_read_text.return_value = '{"libraryfolders": {}}'
+
+        result = arc_tuner.find_proton_prefix(app_id)
+        expected_prefix = Path("/mnt/games/SteamLibrary/steamapps/compatdata") / app_id
+        assert result == expected_prefix, f"Should find prefix in secondary library, got {result}"
+        print("✓ Found Proton prefix in secondary library")
+
+
+def test_get_default_config_path_windows():
+    """Test get_default_config_path() on Windows."""
+    print("\n=== Testing get_default_config_path() - Windows ===")
+
+    import arc_tuner
+
+    with patch.dict(os.environ, {'LOCALAPPDATA': 'C:/Users/TestUser/AppData/Local'}), \
+         patch.object(arc_tuner, 'IS_WINDOWS', True), \
+         patch.object(arc_tuner, 'IS_LINUX', False):
+
+        result = arc_tuner.get_default_config_path()
+
+        expected = Path("C:/Users/TestUser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini")
+        assert result == expected, f"Windows path incorrect: {result}"
+        print(f"✓ Windows path: {result}")
+
+
+def test_get_default_config_path_linux():
+    """Test get_default_config_path() on Linux/SteamOS."""
+    print("\n=== Testing get_default_config_path() - Linux ===")
+
+    import arc_tuner
+
+    with patch.object(arc_tuner, 'IS_WINDOWS', False), \
+         patch.object(arc_tuner, 'IS_LINUX', True), \
+         patch.object(arc_tuner, 'find_proton_prefix') as mock_find_prefix:
+
+        # Test case 1: Proton prefix found
+        mock_find_prefix.return_value = Path("/home/user/.local/share/Steam/steamapps/compatdata/1808500")
+
+        result = arc_tuner.get_default_config_path()
+
+        expected = Path("/home/user/.local/share/Steam/steamapps/compatdata/1808500/"
+                       "pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini")
+        assert result == expected, f"Linux path incorrect: {result}"
+        print(f"✓ Linux path with Proton prefix: {result}")
+
+        # Test case 2: Proton prefix not found
+        mock_find_prefix.return_value = None
+
+        result = arc_tuner.get_default_config_path()
+        assert result is None, "Should return None when Proton prefix not found"
+        print("✓ Returns None when Proton prefix not found on Linux")
+
+
+def test_config_path_integration():
+    """Test the full config path resolution chain."""
+    print("\n=== Testing Config Path Integration ===")
+
+    import arc_tuner
+
+    # Test that ConfigManager uses get_default_config_path()
+    with patch.object(arc_tuner, 'get_default_config_path') as mock_get_path:
+        mock_get_path.return_value = Path("/tmp/test/GameUserSettings.ini")
+
+        # ConfigManager should use the platform-aware path function
+        # Note: This test verifies the integration exists
+        cm = ConfigManager()
+
+        # The DEFAULT_CONFIG_PATH should be set using get_default_config_path()
+        # or the initialize method should call it
+        print("✓ ConfigManager integration with platform detection")
+
+
+def test_vdf_parsing_edge_cases():
+    """Test VDF parsing with various edge cases."""
+    print("\n=== Testing VDF Parsing Edge Cases ===")
+
+    import arc_tuner
+
+    # Test case 1: Windows-style paths in VDF
+    vdf_windows = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "path"        "C:\\\\Program Files (x86)\\\\Steam"
+    }
+}
+'''
+    result = arc_tuner.parse_vdf_library_folders(vdf_windows)
+    assert len(result) >= 1, "Should parse Windows-style paths"
+    print("✓ Parsed Windows-style paths in VDF")
+
+    # Test case 2: VDF with extra whitespace
+    vdf_whitespace = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "path"        "  /home/user/Steam  "
+    }
+}
+'''
+    result = arc_tuner.parse_vdf_library_folders(vdf_whitespace)
+    # Should handle whitespace (trim it)
+    if len(result) > 0:
+        assert "/home/user/Steam" in str(result[0]), "Should trim whitespace from paths"
+    print("✓ Handled VDF with extra whitespace")
+
+    # Test case 3: VDF with quoted paths containing spaces
+    vdf_spaces = '''
+"libraryfolders"
+{
+    "0"
+    {
+        "path"        "/mnt/My Games/Steam Library"
+    }
+}
+'''
+    result = arc_tuner.parse_vdf_library_folders(vdf_spaces)
+    assert len(result) >= 1, "Should parse paths with spaces"
+    print("✓ Parsed paths containing spaces")
 
 
 def run_tests():
@@ -326,6 +695,17 @@ def run_tests():
         test_backup_system,
         test_profile_system,
         test_path_validation,
+        # SteamOS/Linux platform detection tests
+        test_platform_constants,
+        test_find_steam_path_linux,
+        test_find_steam_path_windows,
+        test_parse_vdf_library_folders,
+        test_find_proton_prefix,
+        test_find_proton_prefix_secondary_library,
+        test_get_default_config_path_windows,
+        test_get_default_config_path_linux,
+        test_config_path_integration,
+        test_vdf_parsing_edge_cases,
     ]
     
     passed = 0

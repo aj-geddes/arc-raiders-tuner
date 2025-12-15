@@ -3,8 +3,14 @@
 A secure, user-friendly configuration manager for Arc Raiders. Easily tune your graphics settings, manage multiple profiles, and never lose your configs with automatic backups.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20SteamOS%20%7C%20Linux-lightgrey.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-green.svg)
+
+## Platform Support
+
+- **Windows** - Native support with standalone .exe
+- **SteamOS / Steam Deck** - Works via Proton (Arc Raiders is Steam Deck Verified as of November 2025)
+- **Linux** - Compatible with Steam/Proton installations
 
 ## Features
 
@@ -13,7 +19,7 @@ A secure, user-friendly configuration manager for Arc Raiders. Easily tune your 
 - **Multiple Profiles** - Save and load different configurations for competitive, quality, etc.
 - **Built-in Presets** - One-click presets for common use cases
 - **Secure** - No network access, validates all file paths, no code execution
-- **Zero Dependencies** - Single .exe that works without installing anything
+- **Zero Dependencies** - Single .exe on Windows, Python stdlib only on Linux
 
 ## Screenshot
 
@@ -23,7 +29,9 @@ A secure, user-friendly configuration manager for Arc Raiders. Easily tune your 
 
 ## Installation
 
-### Option 1: Download Pre-built Executable (Recommended)
+### Windows
+
+#### Option 1: Download Pre-built Executable (Recommended)
 1. Download `ArcRaidersTuner.exe` from the [Releases page](https://github.com/aj-geddes/arc-raiders-tuner/releases)
 2. Run it - no installation required!
 
@@ -37,17 +45,17 @@ When you first run the app, Windows will show a SmartScreen warning. **This is n
 
 The app is completely safe — the full source code is available in this repository for review.
 
-### Option 2: Run from Source
+#### Option 2: Run from Source (Windows)
 ```bash
 # Clone or download this repository
-git clone https://github.com/yourusername/arc-raiders-tuner.git
+git clone https://github.com/aj-geddes/arc-raiders-tuner.git
 cd arc-raiders-tuner
 
 # Run directly (requires Python 3.8+)
 python arc_tuner.py
 ```
 
-### Option 3: Build Your Own Executable
+#### Option 3: Build Your Own Executable (Windows)
 ```bash
 # Install PyInstaller
 pip install pyinstaller
@@ -59,14 +67,79 @@ build.bat
 pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 ```
 
+### SteamOS / Steam Deck
+
+1. **Switch to Desktop Mode** - Press the Steam button, select "Power", then "Switch to Desktop"
+2. **Install Python tkinter** (if not already installed):
+   ```bash
+   # SteamOS 3.x (Arch-based)
+   sudo pacman -S tk
+
+   # Or use the Discover app store to install "Python tkinter"
+   ```
+3. **Download the repository**:
+   ```bash
+   git clone https://github.com/aj-geddes/arc-raiders-tuner.git
+   cd arc-raiders-tuner
+   ```
+4. **Run the application**:
+   ```bash
+   python3 arc_tuner.py
+   ```
+
+The app will automatically detect your Steam Deck and find the Arc Raiders config at:
+```
+~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini
+```
+
+**Note**: Arc Raiders must be run at least once to create the config file. Arc Raiders App ID is `1808500`.
+
+### Linux (General)
+
+Requirements:
+- Python 3.8+
+- tkinter (`python3-tk` on Debian/Ubuntu, `tk` on Arch)
+- Steam with Proton
+- Arc Raiders installed and run at least once
+
+The app supports both standard Steam and Flatpak Steam installations and will automatically detect the correct config file location.
+
+```bash
+# Install tkinter if needed
+# Debian/Ubuntu:
+sudo apt install python3-tk
+
+# Arch/SteamOS:
+sudo pacman -S tk
+
+# Fedora:
+sudo dnf install python3-tkinter
+
+# Run the app
+git clone https://github.com/aj-geddes/arc-raiders-tuner.git
+cd arc-raiders-tuner
+python3 arc_tuner.py
+```
+
 ## Usage
 
 ### First Launch
+
+#### Windows
 1. Run `ArcRaidersTuner.exe`
 2. The app automatically finds your Arc Raiders config at:
    ```
    %LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\GameUserSettings.ini
    ```
+3. If not found, use **File → Open Config** to locate it manually
+
+#### SteamOS / Linux
+1. Run `python3 arc_tuner.py`
+2. The app automatically detects your platform and finds the config at:
+   ```
+   ~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini
+   ```
+   (Also supports Flatpak Steam locations)
 3. If not found, use **File → Open Config** to locate it manually
 
 ### Changing Settings
@@ -183,11 +256,23 @@ This application is designed with security in mind:
 
 ## File Locations
 
+### Windows
+
 | Item | Location |
 |------|----------|
 | Game Config | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\GameUserSettings.ini` |
 | Backups | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\ArcTuner_Backups\` |
 | Profiles | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\ArcTuner_Profiles\` |
+
+### SteamOS / Linux
+
+| Item | Location |
+|------|----------|
+| Game Config | `~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini` |
+| Backups | `~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/ArcTuner_Backups/` |
+| Profiles | `~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/ArcTuner_Profiles/` |
+
+**Note**: Arc Raiders App ID is `1808500`. Flatpak Steam uses a different base path but is automatically detected.
 
 ## Troubleshooting
 
@@ -206,6 +291,8 @@ This application is designed with security in mind:
 
 ## Building from Source
 
+### Windows Executable
+
 Requirements:
 - Python 3.8 or higher
 - Windows 10/11
@@ -218,6 +305,17 @@ pip install pyinstaller
 pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 
 # The .exe will be in the dist/ folder
+```
+
+### Running from Source (All Platforms)
+
+Requirements:
+- Python 3.8 or higher
+- tkinter (usually `python3-tk` on Linux)
+
+```bash
+# No build needed - just run directly
+python3 arc_tuner.py
 ```
 
 ## Contributing
