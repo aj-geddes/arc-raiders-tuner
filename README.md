@@ -15,32 +15,11 @@ A secure, user-friendly configuration manager for Arc Raiders. Easily tune your 
 - **Secure** - No network access, validates all file paths, no code execution
 - **Zero Dependencies** - Single .exe that works without installing anything
 
-## Screenshots
+## Screenshot
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ Arc Raiders Config Tuner                                    [_][□][X]│
-├─────────────────────────────────────────────────────────────────┤
-│ File  Profiles  Backups  Presets  Help                          │
-├─────────────────────────────────────────────────────────────────┤
-│ Loaded: C:\...\GameUserSettings.ini           ● Unsaved Changes │
-├─────────────────────────────────────────────────────────────────┤
-│ [Upscaling] [Frame Gen] [Latency] [Ray Tracing] [Display] ...   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Upscaling Technology                    [Very High Impact]     │
-│  Choose which upscaling technology to use.     [DLSS      ▼]    │
-│                                                                 │
-│  DLSS Quality Mode                       [Very High Impact]     │
-│  DLAA=Native AA only. Quality=67%...          [Quality    ▼]    │
-│                                                                 │
-│  DLSS Model                              [Low Impact]           │
-│  Transformer provides better motion clarity.   [Transformer▼]   │
-│                                                                 │
-├─────────────────────────────────────────────────────────────────┤
-│              [Reset to Defaults] [Reload] [Save Changes]        │
-└─────────────────────────────────────────────────────────────────┘
-```
+![Arc Raiders Config Tuner Interface](docs/assets/images/screenshot.png)
+
+*Dark theme with Arc Raiders branding • Tabbed interface • Performance impact indicators • One-click presets*
 
 ## Installation
 
@@ -48,7 +27,15 @@ A secure, user-friendly configuration manager for Arc Raiders. Easily tune your 
 1. Download `ArcRaidersTuner.exe` from the [Releases page](https://github.com/aj-geddes/arc-raiders-tuner/releases)
 2. Run it - no installation required!
 
-> **Windows SmartScreen Warning:** You may see a "Windows protected your PC" warning because the app is not signed with a commercial certificate. This is normal for open-source software. Click **"More info"** → **"Run anyway"** to proceed. The app is safe - you can review the full source code in this repository.
+#### Windows SmartScreen Warning
+
+When you first run the app, Windows will show a SmartScreen warning. **This is normal** for open-source software that isn't signed with an expensive code signing certificate.
+
+| Step 1: Click "More info" | Step 2: Click "Run anyway" |
+|:-------------------------:|:--------------------------:|
+| ![SmartScreen Step 1](docs/assets/images/smartscreen-1.png) | ![SmartScreen Step 2](docs/assets/images/smartscreen-2.png) |
+
+The app is completely safe — the full source code is available in this repository for review.
 
 ### Option 2: Run from Source
 ```bash
