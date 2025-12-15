@@ -585,6 +585,109 @@ section {
 }
 
 // ============================================================================
+// SmartScreen Warning Section
+// ============================================================================
+
+.smartscreen-section {
+  background-color: var(--bg-dark);
+  border-top: 3px solid var(--accent-orange);
+}
+
+.smartscreen-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-xl);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.smartscreen-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.smartscreen-step {
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
+  text-align: center;
+
+  h3 {
+    color: var(--accent-orange);
+    margin: var(--spacing-sm) 0;
+    font-size: 1.3rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-sm);
+}
+
+.smartscreen-image-container {
+  margin-top: var(--spacing-sm);
+}
+
+.smartscreen-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    border-color: var(--accent-orange);
+    transform: scale(1.02);
+  }
+}
+
+.smartscreen-arrow {
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  color: var(--accent-orange);
+  padding-top: 100px;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.smartscreen-note {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-md);
+  background-color: var(--bg-medium);
+  border-left: 4px solid var(--accent-orange);
+  border-radius: 0 8px 8px 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+}
+
+// ============================================================================
 // Download Section
 // ============================================================================
 

@@ -148,16 +148,48 @@ keywords: Arc Raiders, config, settings, DLSS, FSR, Ray Tracing, Reflex, graphic
       </ul>
     </div>
 
-    <div class="smartscreen-warning">
-      <h3 class="warning-title">About Windows SmartScreen</h3>
-      <p>
-        When you first run the executable, Windows SmartScreen may display a warning message.
-        This is a standard security feature for unsigned applications and does not indicate malware.
-        The source code is completely open and available for review on GitHub.
-      </p>
-      <p>
-        <strong>To proceed:</strong> Click "More info" on the SmartScreen dialog, then click "Run anyway".
-      </p>
+  </div>
+</section>
+
+<section class="smartscreen-section">
+  <div class="container">
+    <h2 class="section-title">Windows SmartScreen Warning</h2>
+    <p class="smartscreen-intro">
+      When you first run the app, Windows will show a SmartScreen warning.
+      <strong>This is normal for open-source software</strong> that isn't signed with an expensive commercial certificate.
+      The app is completely safe — you can review the full source code on GitHub.
+    </p>
+
+    <div class="smartscreen-steps">
+      <div class="smartscreen-step">
+        <div class="step-number">1</div>
+        <h3>Click "More info"</h3>
+        <p>When you see "Windows protected your PC", click the <strong>"More info"</strong> link.</p>
+        <div class="smartscreen-image-container">
+          <img src="{{ '/assets/images/smartscreen-1.png' | relative_url }}"
+               alt="Windows SmartScreen warning dialog - click More info"
+               class="smartscreen-image"
+               loading="lazy">
+        </div>
+      </div>
+
+      <div class="smartscreen-arrow">→</div>
+
+      <div class="smartscreen-step">
+        <div class="step-number">2</div>
+        <h3>Click "Run anyway"</h3>
+        <p>After clicking "More info", the <strong>"Run anyway"</strong> button will appear. Click it to launch the app.</p>
+        <div class="smartscreen-image-container">
+          <img src="{{ '/assets/images/smartscreen-2.png' | relative_url }}"
+               alt="Windows SmartScreen dialog showing Run anyway button"
+               class="smartscreen-image"
+               loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <div class="smartscreen-note">
+      <p><strong>Why does this happen?</strong> Code signing certificates cost $200-700/year. As an open-source project, we rely on transparency instead — the complete source code is available for anyone to review and verify.</p>
     </div>
   </div>
 </section>
