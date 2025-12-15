@@ -18,10 +18,10 @@ if errorlevel 1 (
 
 REM Check/Install PyInstaller
 echo Checking for PyInstaller...
-pip show pyinstaller >nul 2>&1
+python -m pip show pyinstaller >nul 2>&1
 if errorlevel 1 (
     echo Installing PyInstaller...
-    pip install pyinstaller
+    python -m pip install pyinstaller
 )
 
 REM Clean previous builds
@@ -35,13 +35,13 @@ echo.
 echo Building Arc Tuner...
 echo.
 
-pyinstaller ^
-    --onefile ^
-    --windowed ^
-    --name "ArcRaidersTuner" ^
-    --add-data "README.md;." ^
-    --icon "icon.ico" ^
-    arc_tuner.py
+REM Use python -m PyInstaller to avoid PATH issues
+set PYINSTALLER_OPTS=--onefile --windowed --name "ArcRaidersTuner"
+
+REM Add icon if it exists
+if exist "icon.ico" set PYINSTALLER_OPTS=%PYINSTALLER_OPTS% --icon "icon.ico"
+
+python -m PyInstaller %PYINSTALLER_OPTS% arc_tuner.py
 
 if errorlevel 1 (
     echo.
