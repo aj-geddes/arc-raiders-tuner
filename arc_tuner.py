@@ -473,8 +473,8 @@ PRESETS = {
 class ConfigManager:
     """Handles reading, writing, and backing up Arc Raiders configuration files."""
     
-    # Default config path - Arc Raiders uses standard UE5 location
-    DEFAULT_CONFIG_PATH = Path(os.environ.get('LOCALAPPDATA', '')) / "ArcRaiders" / "Saved" / "Config" / "Windows" / "GameUserSettings.ini"
+    # Default config path - Arc Raiders (PioneerGame) UE5 location
+    DEFAULT_CONFIG_PATH = Path(os.environ.get('LOCALAPPDATA', '')) / "PioneerGame" / "Saved" / "Config" / "WindowsClient" / "GameUserSettings.ini"
     
     def __init__(self):
         self.config_path: Optional[Path] = None

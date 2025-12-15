@@ -78,7 +78,7 @@ pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 1. Run `ArcRaidersTuner.exe`
 2. The app automatically finds your Arc Raiders config at:
    ```
-   %LOCALAPPDATA%\ArcRaiders\Saved\Config\Windows\GameUserSettings.ini
+   %LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\GameUserSettings.ini
    ```
 3. If not found, use **File → Open Config** to locate it manually
 
@@ -159,9 +159,9 @@ This application is designed with security in mind:
 
 | Item | Location |
 |------|----------|
-| Game Config | `%LOCALAPPDATA%\ArcRaiders\Saved\Config\Windows\GameUserSettings.ini` |
-| Backups | `%LOCALAPPDATA%\ArcRaiders\Saved\Config\Windows\ArcTuner_Backups\` |
-| Profiles | `%LOCALAPPDATA%\ArcRaiders\Saved\Config\Windows\ArcTuner_Profiles\` |
+| Game Config | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\GameUserSettings.ini` |
+| Backups | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\ArcTuner_Backups\` |
+| Profiles | `%LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\ArcTuner_Profiles\` |
 
 ## Troubleshooting
 
