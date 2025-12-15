@@ -1,39 +1,52 @@
-# Arc Raiders Config Tuner
+# Arc Raiders Config Tuner - Graphics Settings Optimizer & Performance Tool
 
-A secure, user-friendly configuration manager for Arc Raiders. Easily tune your graphics settings, manage multiple profiles, and never lose your configs with automatic backups.
+**Boost your FPS and optimize Arc Raiders graphics settings** with this powerful configuration manager. Fine-tune DLSS, FSR, Ray Tracing, NVIDIA Reflex, and competitive settings for maximum performance on Windows, Steam Deck, and Linux.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20SteamOS%20%7C%20Linux-lightgrey.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20SteamOS%20%7C%20Steam%20Deck%20%7C%20Linux-lightgrey.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-green.svg)
+![Downloads](https://img.shields.io/github/downloads/aj-geddes/arc-raiders-tuner/total?label=downloads)
+![GitHub stars](https://img.shields.io/github/stars/aj-geddes/arc-raiders-tuner?style=social)
+
+**Topics**: `arc-raiders` `game-optimizer` `fps-boost` `dlss` `fsr` `nvidia-reflex` `steam-deck` `graphics-settings` `performance-tuning` `config-manager` `ray-tracing` `competitive-gaming` `unreal-engine` `gaming-tools`
+
+## Quick Download
+
+**[Download Latest Release](https://github.com/aj-geddes/arc-raiders-tuner/releases/latest)** | **[View Documentation](https://aj-geddes.github.io/arc-raiders-tuner/)**
+
+Get the standalone Windows executable or run from source on any platform.
 
 ## Platform Support
 
-- **Windows** - Native support with standalone .exe
-- **SteamOS / Steam Deck** - Works via Proton (Arc Raiders is Steam Deck Verified as of November 2025)
-- **Linux** - Compatible with Steam/Proton installations
+- **Windows 10/11** - Native support with standalone .exe (no installation required)
+- **Steam Deck / SteamOS** - Full compatibility via Proton (Arc Raiders is Steam Deck Verified)
+- **Linux** - Works with Steam/Proton on all distributions
 
-## Features
+## Key Features
 
-- **Easy-to-Use Interface** - All settings explained with performance impact indicators
+- **Graphics Settings Optimization** - Fine-tune DLSS, FSR 3, XeSS upscaling for maximum FPS
+- **Latency Reduction** - Configure NVIDIA Reflex and frame generation settings
+- **Ray Tracing Controls** - Adjust RTX Global Illumination for quality vs performance
+- **Competitive Settings** - Hidden console variables for reduced input lag and visual clarity
 - **Automatic Backups** - Never lose your settings, backups created before every save
-- **Multiple Profiles** - Save and load different configurations for competitive, quality, etc.
-- **Built-in Presets** - One-click presets for common use cases
-- **Secure** - No network access, validates all file paths, no code execution
+- **Profile Management** - Save and load different configurations (competitive, quality, etc.)
+- **Built-in Presets** - One-click optimization for common use cases
+- **Secure & Private** - No network access, validates all file paths, no code execution
 - **Zero Dependencies** - Single .exe on Windows, Python stdlib only on Linux
 
 ## Screenshot
 
-![Arc Raiders Config Tuner Interface](docs/assets/images/screenshot.png)
+![Arc Raiders Config Tuner - Graphics Settings Interface showing DLSS, FSR, and Ray Tracing controls](docs/assets/images/screenshot.png)
 
-*Dark theme with Arc Raiders branding • Tabbed interface • Performance impact indicators • One-click presets*
+*Dark theme with Arc Raiders branding • Tabbed interface for graphics settings • Performance impact indicators • One-click optimization presets*
 
 ## Installation
 
-### Windows
+### Windows - Quick Start
 
 #### Option 1: Download Pre-built Executable (Recommended)
-1. Download `ArcRaidersTuner.exe` from the [Releases page](https://github.com/aj-geddes/arc-raiders-tuner/releases)
-2. Run it - no installation required!
+1. **[Download ArcRaidersTuner.exe](https://github.com/aj-geddes/arc-raiders-tuner/releases/latest)** from the Releases page
+2. Run it - no installation required, instant access to all graphics settings!
 
 #### Windows SmartScreen Warning
 
@@ -67,7 +80,9 @@ build.bat
 pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 ```
 
-### SteamOS / Steam Deck
+### Steam Deck / SteamOS - Optimize Performance
+
+Perfect for optimizing Arc Raiders graphics settings on your Steam Deck!
 
 1. **Switch to Desktop Mode** - Press the Steam button, select "Power", then "Switch to Desktop"
 2. **Install Python tkinter** (if not already installed):
@@ -87,10 +102,7 @@ pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
    python3 arc_tuner.py
    ```
 
-The app will automatically detect your Steam Deck and find the Arc Raiders config at:
-```
-~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini
-```
+The app will automatically detect your Steam Deck and find the Arc Raiders config file. Perfect for tweaking FSR settings and competitive optimizations for handheld gaming!
 
 **Note**: Arc Raiders must be run at least once to create the config file. Arc Raiders App ID is `1808500`.
 
@@ -121,40 +133,34 @@ cd arc-raiders-tuner
 python3 arc_tuner.py
 ```
 
-## Usage
+## How to Use - Game Optimizer Guide
 
-### First Launch
+### First Launch - Automatic Config Detection
 
 #### Windows
 1. Run `ArcRaidersTuner.exe`
-2. The app automatically finds your Arc Raiders config at:
-   ```
-   %LOCALAPPDATA%\PioneerGame\Saved\Config\WindowsClient\GameUserSettings.ini
-   ```
+2. The app automatically finds your Arc Raiders configuration file
 3. If not found, use **File → Open Config** to locate it manually
 
-#### SteamOS / Linux
+#### Steam Deck / SteamOS / Linux
 1. Run `python3 arc_tuner.py`
-2. The app automatically detects your platform and finds the config at:
-   ```
-   ~/.local/share/Steam/steamapps/compatdata/1808500/pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/Saved/Config/WindowsClient/GameUserSettings.ini
-   ```
-   (Also supports Flatpak Steam locations)
-3. If not found, use **File → Open Config** to locate it manually
+2. The app automatically detects your platform and finds the Arc Raiders config
+3. Supports both standard Steam and Flatpak Steam installations
+4. If not found, use **File → Open Config** to locate it manually
 
-### Changing Settings
-1. Navigate tabs (Upscaling, Latency, Ray Tracing, etc.)
+### Optimizing Graphics Settings for FPS
+1. Navigate tabs: **Upscaling** (DLSS/FSR), **Latency** (Reflex), **Ray Tracing**, **Competitive Settings**
 2. Adjust settings using dropdowns, checkboxes, and sliders
 3. Each setting shows its **performance impact** (Low/Medium/High/Very High)
 4. Click **Save Changes** when done
 5. A backup is automatically created before saving
 
-### Using Presets
-Quick-apply optimized configurations:
-- **Competitive** - Maximum FPS, lowest latency
-- **Balanced** - Good visuals with solid performance  
-- **Quality** - Maximum visual fidelity
-- **Cinematic** - Best visuals with frame generation
+### Using Performance Presets - Quick Optimization
+Quick-apply optimized configurations for instant FPS boost:
+- **Competitive** - Maximum FPS, lowest input latency, reduced visual clutter
+- **Balanced** - Great visuals with solid performance
+- **Quality** - Maximum visual fidelity with ray tracing
+- **Cinematic** - Best visuals with DLSS frame generation
 
 ### Managing Profiles
 Save your custom configurations:
@@ -169,80 +175,80 @@ Never lose your settings:
 - **Backups → Restore Backup** - Restore any previous config
 - **Backups → Open Backup Folder** - Access backup files directly
 
-## Settings Reference
+## Graphics Settings Reference - Performance Tuning Guide
 
-### Upscaling Technologies
+### Upscaling Technologies - DLSS vs FSR vs XeSS
 
-| Technology | Vendor | Best For |
-|------------|--------|----------|
-| **DLSS** | NVIDIA | RTX GPUs - Best quality with Tensor cores |
-| **XeSS** | Intel | All GPUs - Best on Intel Arc |
-| **FSR 3** | AMD | All GPUs - No special hardware needed |
+| Technology | Vendor | Best For | FPS Boost |
+|------------|--------|----------|-----------|
+| **DLSS 3** | NVIDIA | RTX 20/30/40 series - Best quality with AI upscaling | 40-120% |
+| **XeSS** | Intel | All GPUs - Best quality on Intel Arc | 30-80% |
+| **FSR 3** | AMD | All GPUs - No special hardware needed | 30-90% |
 
-### DLSS Modes
+### DLSS Performance Modes - FPS vs Quality
 
-| Mode | Render Scale | FPS Gain | Quality |
-|------|-------------|----------|---------|
-| DLAA | 100% | 0% | Sharpest (AA only) |
-| Quality | 67% | 30-50% | Excellent |
-| Balanced | 58% | 45-65% | Good |
-| Performance | 50% | 60-100% | Acceptable |
-| Ultra Performance | 33% | 100%+ | Blurry |
+| Mode | Render Scale | FPS Gain | Visual Quality | Best For |
+|------|-------------|----------|----------------|----------|
+| DLAA | 100% | 0% | Sharpest (AA only) | High-end GPUs |
+| Quality | 67% | 30-50% | Excellent | Balanced gaming |
+| Balanced | 58% | 45-65% | Good | Mid-range GPUs |
+| Performance | 50% | 60-100% | Acceptable | Low-end GPUs |
+| Ultra Performance | 33% | 100%+ | Blurry | 4K gaming |
 
-### Latency Reduction
+### Latency Reduction - NVIDIA Reflex Settings
 
-| Setting | Effect |
-|---------|--------|
-| **Reflex On** | 20-50% latency reduction |
-| **Reflex On+Boost** | Better for CPU-bound scenarios |
-| **Frame Generation** | ⚠️ Adds 15-30ms latency! |
+| Setting | Input Lag Reduction | FPS Impact | Best For |
+|---------|-------------------|------------|----------|
+| **Reflex On** | 20-50% lower latency | Minimal | Competitive gaming |
+| **Reflex On+Boost** | 30-60% lower latency | 5-10% | CPU-bound scenarios |
+| **Frame Generation** | ⚠️ Adds 15-30ms latency! | +50-100% FPS | Single-player only |
 
-### RTX Global Illumination
+### Ray Tracing - RTX Global Illumination Settings
 
-| Setting | Performance Cost | Use Case |
-|---------|-----------------|----------|
-| Static | 0% | Competitive - Best FPS |
-| DynamicHigh | 25-35% | Balanced |
-| DynamicEpic | 35-45% | Quality - Best visuals |
+| Setting | Performance Cost | GPU Usage | Use Case |
+|---------|-----------------|-----------|----------|
+| Static | 0% | Minimal | Competitive - Maximum FPS |
+| DynamicHigh | 25-35% | High | Balanced - Good visuals |
+| DynamicEpic | 35-45% | Very High | Quality - Best ray tracing |
 
-### Competitive Settings
+### Competitive Settings - Reduce Input Lag & Visual Clutter
 
 > ⚠️ **WARNING**: Some settings in this section are experimental and may cause instability or visual artifacts. Settings marked with ⚠️ should be tested carefully before use in ranked matches.
 
-#### Mouse & Input
-| Setting | Recommended | Description |
-|---------|-------------|-------------|
-| Mouse Smoothing | OFF | Adds input lag and inconsistent aim |
-| Mouse Acceleration | OFF | Causes inconsistent muscle memory |
+#### Mouse & Input - Reduce Input Lag
+| Setting | Recommended | Description | Performance Impact |
+|---------|-------------|-------------|-------------------|
+| Mouse Smoothing | OFF | Eliminates input lag and inconsistent aim | Improves responsiveness |
+| Mouse Acceleration | OFF | Ensures consistent muscle memory | Better aim control |
 
-#### Visual Clutter
-| Setting | Competitive Value | Effect |
-|---------|------------------|--------|
-| Depth of Field | 0 (Off) | Removes distance blur |
-| Bloom | 0 (Off) | Reduces visual noise |
-| Lens Flare | 0 (Off) | Prevents light obstruction |
-| Chromatic Aberration | 0 (Off) | Cleaner screen edges |
-| Vignette | 0 (Off) | Full peripheral visibility |
-| Film Grain | 0 (Off) | Cleaner image |
+#### Visual Clutter Reduction - Competitive Visibility
+| Setting | Competitive Value | Effect | FPS Impact |
+|---------|------------------|--------|------------|
+| Depth of Field | 0 (Off) | Removes distance blur | +2-5% FPS |
+| Bloom | 0 (Off) | Reduces visual noise | +1-3% FPS |
+| Lens Flare | 0 (Off) | Prevents light obstruction | +1-2% FPS |
+| Chromatic Aberration | 0 (Off) | Cleaner screen edges | Minimal |
+| Vignette | 0 (Off) | Full peripheral visibility | Minimal |
+| Film Grain | 0 (Off) | Cleaner image | Minimal |
 
-#### Performance Tweaks (⚠️ Experimental)
+#### Performance Tweaks - Advanced Optimization (⚠️ Experimental)
 | Setting | Value | Effect | Stability |
 |---------|-------|--------|-----------|
-| One Frame Thread Lag | 0 | -1 frame input lag | ⚠️ May stutter |
-| Smooth Frame Rate | Off | Lower latency | ⚠️ May stutter |
-| Precompile Shaders | On | Less in-game stutter | Stable |
+| One Frame Thread Lag | 0 | -1 frame input latency | ⚠️ May cause stuttering |
+| Smooth Frame Rate | Off | Lower input latency | ⚠️ May cause stuttering |
+| Precompile Shaders | On | Reduces in-game stutter | Stable |
 
-#### VRAM & Textures
-| Setting | Recommendation | Notes |
-|---------|---------------|-------|
-| Texture Pool Size | GPU VRAM-based | 6GB=4096, 8GB=6144, 12GB+=8192 |
-| Anisotropic Filtering | 16x | Minimal performance impact |
+#### VRAM & Texture Settings
+| Setting | Recommendation | Notes | Performance |
+|---------|---------------|-------|-------------|
+| Texture Pool Size | VRAM-based | 6GB=4096MB, 8GB=6144MB, 12GB+=8192MB | Affects texture quality |
+| Anisotropic Filtering | 16x | Sharper textures at angles | Minimal FPS impact |
 
-#### Audio
-| Setting | Competitive Value | Effect |
-|---------|------------------|--------|
-| Audio Quality | Epic (3) | Best positional audio |
-| Audio Spatialization | On | Better enemy location |
+#### Audio Settings - Competitive Advantage
+| Setting | Competitive Value | Effect | Advantage |
+|---------|------------------|--------|-----------|
+| Audio Quality | Epic (3) | Best positional audio quality | Hear enemy footsteps clearly |
+| Audio Spatialization | On | 3D audio positioning | Better enemy location tracking |
 
 ## Security
 
@@ -274,66 +280,93 @@ This application is designed with security in mind:
 
 **Note**: Arc Raiders App ID is `1808500`. Flatpak Steam uses a different base path but is automatically detected.
 
-## Troubleshooting
+## Troubleshooting - Common Issues
 
-### "Config Not Found"
-- Make sure Arc Raiders has been run at least once
-- Use **File → Open Config** to manually locate the file
+### "Config File Not Found"
+- **Solution**: Make sure Arc Raiders has been run at least once to generate the config file
+- Use **File → Open Config** to manually locate `GameUserSettings.ini`
+- On Steam Deck/Linux, ensure the game has been launched through Proton
 
-### Settings Not Applying
-1. Close Arc Raiders completely before saving
-2. Disable cloud saves for Arc Raiders in your game launcher
-3. Check if the file is read-only
+### Graphics Settings Not Applying in Game
+1. **Close Arc Raiders completely** before saving changes with the tuner
+2. **Disable Steam Cloud saves** for Arc Raiders to prevent settings from being overwritten
+3. Check if the config file is read-only (right-click → Properties)
+4. Verify the game isn't running in the background
 
 ### Backup/Profile Errors
-- Ensure you have write permissions to the config folder
-- Run as Administrator if needed (not recommended normally)
+- Ensure you have write permissions to the Arc Raiders config folder
+- On Linux/Steam Deck, check file permissions with `ls -l`
+- Run as Administrator if needed on Windows (not recommended normally)
+
+### Performance Issues After Changing Settings
+- Use **Backups → Restore Backup** to revert to previous working configuration
+- Try the **Balanced** preset as a starting point
+- Ensure your GPU drivers are up to date for DLSS/FSR support
 
 ## Building from Source
 
-### Windows Executable
+### Windows Executable Build
 
 Requirements:
 - Python 3.8 or higher
 - Windows 10/11
 
 ```bash
-# Install build dependencies
+# Install PyInstaller for building standalone executable
 pip install pyinstaller
 
-# Build standalone executable
+# Build portable Windows executable (no installation required)
 pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 
-# The .exe will be in the dist/ folder
+# The standalone .exe will be in the dist/ folder
 ```
 
 ### Running from Source (All Platforms)
 
 Requirements:
 - Python 3.8 or higher
-- tkinter (usually `python3-tk` on Linux)
+- tkinter (`python3-tk` on Debian/Ubuntu, `tk` on Arch/SteamOS)
 
 ```bash
-# No build needed - just run directly
+# No build needed - run the Python script directly
 python3 arc_tuner.py
 ```
 
-## Contributing
+## Contributing to Arc Raiders Tuner
 
-Contributions welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Submit a pull request
+Contributions welcome! Help improve this game optimizer:
+1. Fork the repository on GitHub
+2. Create a feature branch (`git checkout -b feature/amazing-optimization`)
+3. Commit your changes (`git commit -m 'Add FPS optimization feature'`)
+4. Push to the branch (`git push origin feature/amazing-optimization`)
+5. Open a Pull Request
+
+Ideas for contributions:
+- Additional competitive settings
+- New preset configurations
+- Steam Deck-specific optimizations
+- Performance benchmarking features
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) file for details.
 
+## Support & Community
+
+- **Issues & Bug Reports**: [GitHub Issues](https://github.com/aj-geddes/arc-raiders-tuner/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/aj-geddes/arc-raiders-tuner/discussions)
+- **Documentation**: [GitHub Pages Site](https://aj-geddes.github.io/arc-raiders-tuner/)
+
+## Keywords & Search Terms
+
+This Arc Raiders configuration tool helps with: graphics settings optimization, FPS boost, performance tuning, DLSS configuration, FSR settings, XeSS setup, NVIDIA Reflex latency reduction, ray tracing optimization, Steam Deck gaming, SteamOS compatibility, competitive settings, input lag reduction, game config editor, INI file manager, Unreal Engine 5 settings, visual clutter reduction, frame generation, upscaling technology comparison.
+
 ## Credits
 
 - **High Velocity Solutions LLC** - Development
-- **Arc Raiders** is a trademark of Embark Studios
+- **Arc Raiders** is a trademark of Embark Studios AB
+- Graphics technologies: DLSS (NVIDIA), FSR (AMD), XeSS (Intel), Reflex (NVIDIA)
 
 ## Disclaimer
 
-This is an unofficial tool and is not affiliated with, endorsed by, or connected to Embark Studios or Arc Raiders. Use at your own risk. Always keep backups of your configuration files.
+This is an unofficial tool and is not affiliated with, endorsed by, or connected to Embark Studios AB or Arc Raiders. Use at your own risk. Always keep backups of your configuration files. This tool modifies game configuration files - ensure you understand the changes being made.

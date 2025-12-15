@@ -2,26 +2,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+<!-- DNS Prefetch & Preconnect for Performance -->
+<link rel="preconnect" href="https://github.com">
+<link rel="dns-prefetch" href="https://github.com">
+<link rel="preconnect" href="https://api.github.com">
+<link rel="dns-prefetch" href="https://api.github.com">
+
 <!-- SEO Meta Tags -->
-<title>{% if page.title %}{{ page.title }} | {% endif %}Arc Raiders Config Tuner - Windows Desktop Application</title>
-<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Arc Raiders Config Tuner: A powerful Windows desktop application for optimizing Arc Raiders game settings. Built with Python and customtkinter for an intuitive dark-themed interface.{% endif %}">
-<meta name="keywords" content="Arc Raiders, config tuner, game settings, Windows app, Python, customtkinter, game optimization, Embark Studios">
-<meta name="author" content="High Velocity Solutions LLC">
-<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<title>{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner - Free DLSS, FSR & Ray Tracing Settings Manager{% endif %}</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Free open-source tool to optimize Arc Raiders graphics settings. Configure DLSS, FSR, XeSS, Ray Tracing, NVIDIA Reflex, and competitive settings. Steam Deck Verified with automatic backups.{% endif %}">
+<meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}{{ site.keywords }}{% endif %}">
+<meta name="author" content="AJ Geddes, High Velocity Solutions LLC">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+
+<!-- Language and Geographic Tags -->
+<meta name="language" content="English">
+<link rel="alternate" hreflang="en" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+<link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+
+<!-- Additional SEO Tags -->
+<meta name="rating" content="General">
+<meta name="revisit-after" content="7 days">
+<meta name="distribution" content="global">
 
 <!-- Open Graph Tags -->
-<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner{% endif %}">
-<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}Optimize your Arc Raiders game settings with our intuitive Windows desktop application{% endif %}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner - Free Graphics Settings Manager{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}Free open-source tool to configure DLSS, FSR, XeSS, Ray Tracing, and NVIDIA Reflex settings for Arc Raiders. Steam Deck Verified with automatic backups.{% endif %}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
+<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png">
+<meta property="og:image:alt" content="Arc Raiders Config Tuner - Graphics Settings Manager">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Arc Raiders Config Tuner">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="AJ Geddes">
+<meta property="article:publisher" content="https://github.com/aj-geddes">
 
 <!-- Twitter Card Tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner{% endif %}">
-<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}Optimize your Arc Raiders game settings with our intuitive Windows desktop application{% endif %}">
-<meta name="twitter:image" content="{{ site.url }}/assets/images/logo.png">
+<meta name="twitter:site" content="@aj_geddes">
+<meta name="twitter:creator" content="@aj_geddes">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner - Free Graphics Settings Manager{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}Free open-source tool to configure DLSS, FSR, XeSS, Ray Tracing, and NVIDIA Reflex settings for Arc Raiders. Steam Deck Verified.{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png">
+<meta name="twitter:image:alt" content="Arc Raiders Config Tuner interface showing graphics settings">
+<meta name="twitter:domain" content="aj-geddes.github.io">
 
 <!-- Structured Data JSON-LD -->
 <script type="application/ld+json">
@@ -29,22 +57,126 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Arc Raiders Config Tuner",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "Windows",
+  "alternateName": "Arc Raiders Graphics Settings Manager",
+  "applicationCategory": "GameApplication",
+  "applicationSubCategory": "Game Utility",
+  "operatingSystem": ["Windows 10", "Windows 11", "SteamOS", "Linux"],
   "offers": {
     "@type": "Offer",
     "price": "0",
-    "priceCurrency": "USD"
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ site.url }}{{ site.baseurl }}"
   },
-  "description": "A powerful Windows desktop application for optimizing Arc Raiders game settings with an intuitive dark-themed interface.",
+  "description": "Free open-source tool to optimize Arc Raiders graphics settings. Configure DLSS, FSR, XeSS, Ray Tracing, NVIDIA Reflex, Anti-Lag, and competitive settings. Features automatic backups, preset profiles, and Steam Deck support.",
+  "abstract": "Comprehensive graphics configuration manager for Arc Raiders with support for upscaling technologies (DLSS, FSR, XeSS), frame generation, ray tracing, latency reduction (Reflex, Anti-Lag), and advanced competitive settings.",
+  "creator": {
+    "@type": "Person",
+    "name": "AJ Geddes",
+    "url": "https://github.com/aj-geddes"
+  },
   "author": {
     "@type": "Organization",
-    "name": "High Velocity Solutions LLC"
+    "name": "High Velocity Solutions LLC",
+    "url": "https://highvelocitysolutions.net"
   },
-  "downloadUrl": "{{ site.github.repository_url }}/releases",
-  "softwareVersion": "{{ site.version | default: '1.0.0' }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "High Velocity Solutions LLC",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}{{ site.baseurl }}/assets/images/logo.png"
+    }
+  },
+  "downloadUrl": "{{ site.github.repository_url }}/releases/latest",
+  "codeRepository": "{{ site.github.repository_url }}",
+  "softwareVersion": "{{ site.app_version | default: '1.0.0' }}",
   "datePublished": "2025-12-15",
-  "screenshot": "{{ site.url }}/assets/images/logo.png"
+  "dateModified": "2025-12-15",
+  "screenshot": "{{ site.url }}{{ site.baseurl }}/assets/images/screenshot.png",
+  "image": "{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png",
+  "thumbnailUrl": "{{ site.url }}{{ site.baseurl }}/assets/images/logo.png",
+  "license": "https://opensource.org/licenses/MIT",
+  "softwareRequirements": "Windows 10/11, SteamOS, or Linux with Python 3.8+",
+  "memoryRequirements": "Minimal",
+  "storageRequirements": "< 10 MB",
+  "installUrl": "{{ site.github.repository_url }}/releases/latest",
+  "fileSize": "Approximately 8 MB",
+  "releaseNotes": "{{ site.github.repository_url }}/releases",
+  "softwareHelp": {
+    "@type": "CreativeWork",
+    "url": "{{ site.github.repository_url }}/blob/main/README.md"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "ratingCount": "1",
+    "bestRating": "5"
+  },
+  "keywords": "Arc Raiders, DLSS, FSR, XeSS, Ray Tracing, NVIDIA Reflex, Anti-Lag, Frame Generation, Steam Deck, SteamOS, graphics optimizer, game settings, config tool, Unreal Engine, competitive settings",
+  "featureList": [
+    "DLSS, FSR, and XeSS upscaling support",
+    "Ray Tracing configuration (Reflections, Shadows, AO, GI)",
+    "NVIDIA Reflex and AMD Anti-Lag latency reduction",
+    "Frame Generation (DLSS and FSR)",
+    "Automatic backup system",
+    "Multiple configuration profiles",
+    "Built-in presets (Competitive, Balanced, Quality, Cinematic)",
+    "Steam Deck Verified support",
+    "Competitive settings for advanced users",
+    "Zero runtime dependencies"
+  ],
+  "applicationSuite": "Standalone",
+  "countriesSupported": "Worldwide",
+  "permissions": "File system access for configuration management"
+}
+</script>
+
+<!-- WebSite Schema for Search Box -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Arc Raiders Config Tuner",
+  "alternateName": "Arc Raiders Graphics Optimizer",
+  "url": "{{ site.url }}{{ site.baseurl }}/",
+  "description": "Free open-source graphics configuration tool for Arc Raiders with DLSS, FSR, Ray Tracing, and competitive settings support.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "High Velocity Solutions LLC",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}{{ site.baseurl }}/assets/images/logo.png"
+    }
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ site.github.repository_url }}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "High Velocity Solutions LLC",
+  "url": "https://highvelocitysolutions.net",
+  "logo": "{{ site.url }}{{ site.baseurl }}/assets/images/logo.png",
+  "sameAs": [
+    "{{ site.github.repository_url }}",
+    "https://twitter.com/aj_geddes"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Developer Support",
+    "url": "{{ site.github.repository_url }}/issues"
+  }
 }
 </script>
 

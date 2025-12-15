@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   {% include head.html %}
 </head>
-<body>
+<body itemscope itemtype="https://schema.org/WebPage">
   {% include header.html %}
 
-  <main class="main-content">
+  <main class="main-content" role="main">
     {{ content }}
   </main>
 

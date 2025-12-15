@@ -1,11 +1,11 @@
-<header class="site-header">
+<header class="site-header" role="banner" itemscope itemtype="https://schema.org/WPHeader">
   <div class="header-container">
-    <div class="logo-section">
-      <img src="{{ site.baseurl }}/assets/images/logo.png" alt="Arc Raiders Config Tuner Logo" class="logo">
-      <h1 class="site-title">ARC RAIDERS CONFIG TUNER</h1>
+    <div class="logo-section" itemscope itemtype="https://schema.org/Organization">
+      <img src="{{ site.baseurl }}/assets/images/logo.png" alt="Arc Raiders Config Tuner - Free DLSS FSR Ray Tracing Optimizer Logo" class="logo" itemprop="logo">
+      <h1 class="site-title" itemprop="name">ARC RAIDERS CONFIG TUNER</h1>
     </div>
 
-    <nav class="main-nav">
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
       <ul class="nav-list">
         <li><a href="{{ site.baseurl }}/" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a></li>
         <li><a href="{{ site.baseurl }}/features" class="nav-link {% if page.url contains 'features' %}active{% endif %}">Features</a></li>

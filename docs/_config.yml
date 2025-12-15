@@ -45,7 +45,30 @@ plugins:
 
 # SEO settings
 lang: en_US
+locale: en_US
 timezone: UTC
+
+# Enhanced SEO metadata
+tagline: "Free Graphics Settings Tool for Arc Raiders - DLSS, FSR, Ray Tracing & More"
+app_version: "1.0.0"
+
+# Platform support for SEO
+platforms:
+  - Windows 10/11
+  - Steam Deck
+  - SteamOS
+  - Linux
+
+# Primary features for SEO
+features_keywords:
+  - Arc Raiders config tool
+  - DLSS settings manager
+  - FSR optimizer
+  - Ray Tracing configurator
+  - NVIDIA Reflex settings
+  - Steam Deck Verified
+  - game graphics optimizer
+  - Unreal Engine 5 tweaker
 
 # Collections
 collections:
@@ -86,5 +109,5 @@ twitter:
 # OpenGraph defaults
 og_image: /assets/images/og-image.png
 
-# Additional metadata
-keywords: "Arc Raiders, config tool, DLSS, FSR, Ray Tracing, Reflex, gaming optimization, graphics settings, Unreal Engine"
+# Additional metadata - Primary SEO keywords
+keywords: "Arc Raiders, config tool, DLSS, FSR, Ray Tracing, Reflex, gaming optimization, graphics settings, Unreal Engine, Steam Deck, SteamOS, XeSS, Frame Generation, Anti-Lag, game optimizer, performance tuning, competitive settings"

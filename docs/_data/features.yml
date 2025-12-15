@@ -1,34 +1,34 @@
-- title: "Easy Settings Editor"
-  description: "Intuitive interface for adjusting graphics settings with real-time performance impact indicators. Know exactly how each change affects your FPS."
+- title: "Easy Graphics Settings Editor"
+  description: "Intuitive interface for adjusting Arc Raiders graphics settings including DLSS, FSR, XeSS, Ray Tracing, and NVIDIA Reflex. Real-time performance impact indicators show exactly how each change affects your FPS."
   icon: "edit"
   highlight: false
 
-- title: "Automatic Backups"
-  description: "Your original config is automatically backed up before every save. Restore anytime with one click if something goes wrong."
+- title: "Automatic Config Backups"
+  description: "Your original Arc Raiders config is automatically backed up before every save. Safely experiment with DLSS, FSR, and Ray Tracing settings knowing you can restore anytime with one click if something goes wrong."
   icon: "shield"
   highlight: true
 
-- title: "Multiple Profiles"
-  description: "Create and save unlimited configuration profiles. Switch between streaming, competitive, and casual setups instantly."
+- title: "Multiple Graphics Profiles"
+  description: "Create and save unlimited Arc Raiders configuration profiles. Instantly switch between streaming (high quality), competitive (max FPS), and casual gaming setups. Perfect for different gameplay scenarios."
   icon: "layers"
   highlight: false
 
-- title: "Built-in Presets"
-  description: "Start with expertly crafted presets: Competitive (max FPS), Balanced (great visuals + performance), Quality (beautiful graphics), and Cinematic (ultra settings)."
+- title: "Built-in Optimization Presets"
+  description: "Start with expertly crafted Arc Raiders presets: Competitive (max FPS with optimized DLSS/FSR), Balanced (great visuals + performance), Quality (beautiful Ray Tracing graphics), and Cinematic (ultra settings for screenshots)."
   icon: "star"
   highlight: true
 
-- title: "Cross-Platform"
-  description: "Works on Windows, SteamOS (Steam Deck Verified!), and Linux with Steam/Proton. Automatic config detection across all platforms."
+- title: "Cross-Platform Support"
+  description: "Works on Windows 10/11, SteamOS (Steam Deck Verified!), and Linux with Steam/Proton. Automatic Arc Raiders config detection across all platforms. Optimize DLSS and FSR settings whether gaming on desktop or handheld."
   icon: "devices"
   highlight: true
 
-- title: "Zero Dependencies"
-  description: "Single executable file, no installation required. No .NET, no runtime dependencies. Download, run, done."
+- title: "Zero Dependencies - Portable App"
+  description: "Single executable file for Windows, no installation required. No .NET, no runtime dependencies, no bloat. Just download the Arc Raiders Config Tuner and run - it's that simple."
   icon: "download"
   highlight: false
 
-- title: "Open Source"
-  description: "MIT licensed and completely open source. Review the code, contribute improvements, or fork for your own projects."
+- title: "Open Source & Free"
+  description: "MIT licensed and completely open source Arc Raiders optimizer. Review the code on GitHub, contribute improvements, or fork for your own gaming projects. 100% free forever."
   icon: "code"
   highlight: true
