@@ -383,6 +383,236 @@ SETTINGS_DEFINITIONS = {
         default=100,
         performance_impact="Very High"
     ),
+
+    # ==========================================================================
+    # COMPETITIVE SETTINGS - Hidden/Advanced Settings for Competitive Players
+    # ==========================================================================
+    # ⚠️ WARNING: Some settings in this section are experimental and may cause
+    # instability or visual artifacts. Use at your own risk.
+    # ==========================================================================
+
+    # === MOUSE & INPUT ===
+    "bEnableMouseSmoothing": SettingDefinition(
+        key="bEnableMouseSmoothing",
+        display_name="Mouse Smoothing",
+        description="⚠️ DISABLE FOR COMPETITIVE PLAY. Mouse smoothing adds interpolation to mouse "
+                   "movement, causing input lag and inconsistent aim. Always OFF for best responsiveness.",
+        setting_type="boolean",
+        section="/Script/Engine.InputSettings",
+        category="Competitive Settings",
+        default=False,
+        performance_impact="Low"
+    ),
+    "bViewAccelerationEnabled": SettingDefinition(
+        key="bViewAccelerationEnabled",
+        display_name="Mouse Acceleration",
+        description="⚠️ DISABLE FOR COMPETITIVE PLAY. Mouse acceleration changes sensitivity based on "
+                   "movement speed. Causes inconsistent muscle memory. Always OFF for consistent aim.",
+        setting_type="boolean",
+        section="/Script/Engine.InputSettings",
+        category="Competitive Settings",
+        default=False,
+        performance_impact="Low"
+    ),
+    "bEnableMouseSmoothing_Engine": SettingDefinition(
+        key="bEnableMouseSmoothing",
+        display_name="Engine Mouse Smoothing",
+        description="⚠️ DISABLE FOR COMPETITIVE PLAY. Secondary mouse smoothing setting in engine config. "
+                   "Disable both this AND the InputSettings version for best response.",
+        setting_type="boolean",
+        section="/Script/Engine.GameUserSettings",
+        category="Competitive Settings",
+        default=False,
+        performance_impact="Low"
+    ),
+
+    # === VISUAL CLUTTER REDUCTION ===
+    "r.DepthOfFieldQuality": SettingDefinition(
+        key="r.DepthOfFieldQuality",
+        display_name="Depth of Field",
+        description="Blurs objects at different distances. 0=OFF (recommended for competitive). "
+                   "Higher values add cinematic blur but reduce visibility.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("1", "Low"), ("2", "High")],
+        default="0",
+        performance_impact="Low"
+    ),
+    "r.BloomQuality": SettingDefinition(
+        key="r.BloomQuality",
+        display_name="Bloom Quality",
+        description="Glow effect around bright objects. 0=OFF reduces visual noise and improves "
+                   "target visibility. Can be distracting in competitive scenarios.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("1", "Low"), ("2", "Medium"), ("3", "High"), ("4", "Epic")],
+        default="0",
+        performance_impact="Low"
+    ),
+    "r.LensFlareQuality": SettingDefinition(
+        key="r.LensFlareQuality",
+        display_name="Lens Flare",
+        description="Simulated camera lens flare from bright lights. 0=OFF recommended for competitive. "
+                   "Can obscure enemies near light sources.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("1", "Low"), ("2", "High")],
+        default="0",
+        performance_impact="Low"
+    ),
+    "r.SceneColorFringe.Max": SettingDefinition(
+        key="r.SceneColorFringe.Max",
+        display_name="Chromatic Aberration",
+        description="Color fringing at screen edges simulating camera lens. 0=OFF for cleaner image "
+                   "and better edge clarity. Purely cosmetic effect.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("0.5", "Low"), ("1", "Full")],
+        default="0",
+        performance_impact="Low"
+    ),
+    "r.Tonemapper.Sharpen": SettingDefinition(
+        key="r.Tonemapper.Sharpen",
+        display_name="Sharpening",
+        description="Post-process sharpening filter. 0=OFF (use upscaler sharpening instead). "
+                   "0.5-1.0 adds subtle sharpness. Higher values may cause artifacts.",
+        setting_type="slider",
+        section="SystemSettings",
+        category="Competitive Settings",
+        min_val=0,
+        max_val=2,
+        default=0,
+        performance_impact="Low"
+    ),
+    "r.Tonemapper.GrainQuantization": SettingDefinition(
+        key="r.Tonemapper.GrainQuantization",
+        display_name="Film Grain Quantization",
+        description="Film grain noise effect. 0=OFF for cleaner image. This is different from the "
+                   "main film grain setting and controls the quantization of grain.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("1", "On")],
+        default="0",
+        performance_impact="Low"
+    ),
+    "r.Vignette.Quality": SettingDefinition(
+        key="r.Vignette.Quality",
+        display_name="Vignette",
+        description="Darkens screen corners for cinematic look. 0=OFF keeps screen edges fully "
+                   "visible for better peripheral awareness.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Competitive)"), ("1", "On")],
+        default="0",
+        performance_impact="Low"
+    ),
+
+    # === PERFORMANCE TWEAKS ===
+    "r.OneFrameThreadLag": SettingDefinition(
+        key="r.OneFrameThreadLag",
+        display_name="One Frame Thread Lag",
+        description="⚠️ EXPERIMENTAL. 0=Reduces input lag by 1 frame but may cause stuttering on some "
+                   "systems. 1=Default safe mode. Test carefully before using in ranked matches.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Lower Latency)"), ("1", "On (Default/Stable)")],
+        default="1",
+        performance_impact="Medium"
+    ),
+    "bSmoothFrameRate": SettingDefinition(
+        key="bSmoothFrameRate",
+        display_name="Smooth Frame Rate",
+        description="⚠️ EXPERIMENTAL. Engine frame pacing. False=Disable for potentially lower latency "
+                   "but may cause stuttering. True=Smoother but slightly higher latency.",
+        setting_type="boolean",
+        section="/Script/Engine.Engine",
+        category="Competitive Settings",
+        default=True,
+        performance_impact="Low"
+    ),
+    "r.CreateShadersOnLoad": SettingDefinition(
+        key="r.CreateShadersOnLoad",
+        display_name="Precompile Shaders on Load",
+        description="⚠️ EXPERIMENTAL. 1=Compile shaders during loading (longer loads, less stuttering). "
+                   "0=Compile on demand (faster loads, potential stutters). Recommended ON.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (Faster Load)"), ("1", "On (Less Stutter)")],
+        default="1",
+        performance_impact="Low"
+    ),
+
+    # === TEXTURE & VRAM ===
+    "r.Streaming.PoolSize": SettingDefinition(
+        key="r.Streaming.PoolSize",
+        display_name="Texture Pool Size (MB)",
+        description="⚠️ ADVANCED. VRAM budget for texture streaming in megabytes. Higher values reduce "
+                   "texture pop-in but use more VRAM. Set based on your GPU: 6GB=4096, 8GB=6144, 12GB+=8192.",
+        setting_type="number",
+        section="SystemSettings",
+        category="Competitive Settings",
+        min_val=1024,
+        max_val=16384,
+        default=4096,
+        performance_impact="Medium"
+    ),
+    "r.MaxAnisotropy": SettingDefinition(
+        key="r.MaxAnisotropy",
+        display_name="Anisotropic Filtering",
+        description="Texture clarity at angles. 16=Maximum quality (minimal performance impact on modern GPUs). "
+                   "Lower values may improve FPS on older hardware.",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("1", "1x (Lowest)"), ("2", "2x"), ("4", "4x"), ("8", "8x"), ("16", "16x (Best)")],
+        default="16",
+        performance_impact="Low"
+    ),
+    "r.TextureStreaming": SettingDefinition(
+        key="r.TextureStreaming",
+        display_name="Texture Streaming",
+        description="⚠️ ADVANCED. 1=Enable dynamic texture loading (recommended). 0=Load all textures "
+                   "at full res (requires more VRAM, may cause crashes on low VRAM GPUs).",
+        setting_type="choice",
+        section="SystemSettings",
+        category="Competitive Settings",
+        options=[("0", "Off (All High-Res)"), ("1", "On (Dynamic)")],
+        default="1",
+        performance_impact="Low"
+    ),
+
+    # === AUDIO ===
+    "AudioQualityLevel": SettingDefinition(
+        key="AudioQualityLevel",
+        display_name="Audio Quality Level",
+        description="Audio processing quality. Higher values may improve positional audio accuracy "
+                   "for footsteps and gunshots. 0=Low, 3=Epic.",
+        setting_type="choice",
+        section="/Script/EmbarkUserSettings.EmbarkGameUserSettings",
+        category="Competitive Settings",
+        options=[("0", "Low"), ("1", "Medium"), ("2", "High"), ("3", "Epic")],
+        default="3",
+        performance_impact="Low"
+    ),
+    "bEnableAudioSpatialisation": SettingDefinition(
+        key="bEnableAudioSpatialisation",
+        display_name="Audio Spatialization",
+        description="3D positional audio processing. Enabled=Better directional sound for locating "
+                   "enemies. Recommended ON for competitive play.",
+        setting_type="boolean",
+        section="/Script/EmbarkUserSettings.EmbarkGameUserSettings",
+        category="Competitive Settings",
+        default=True,
+        performance_impact="Low"
+    ),
 }
 
 # Preset configurations
@@ -390,6 +620,7 @@ PRESETS = {
     "Competitive": {
         "description": "Maximum FPS and lowest latency for competitive play",
         "settings": {
+            # Standard competitive settings
             "DLSSMode": "Performance",
             "DLSSFrameGenerationMode": "Off",
             "NvReflexMode": "Enabled+Boost",
@@ -404,6 +635,18 @@ PRESETS = {
             "sg.EffectsQuality": "1",
             "sg.PostProcessQuality": "1",
             "sg.ViewDistanceQuality": "3",
+            # Advanced competitive settings
+            "bEnableMouseSmoothing": "False",
+            "bViewAccelerationEnabled": "False",
+            "r.DepthOfFieldQuality": "0",
+            "r.BloomQuality": "0",
+            "r.LensFlareQuality": "0",
+            "r.SceneColorFringe.Max": "0",
+            "r.Tonemapper.GrainQuantization": "0",
+            "r.Vignette.Quality": "0",
+            "r.MaxAnisotropy": "16",
+            "AudioQualityLevel": "3",
+            "bEnableAudioSpatialisation": "True",
         }
     },
     "Balanced": {

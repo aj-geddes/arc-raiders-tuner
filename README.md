@@ -132,6 +132,45 @@ Never lose your settings:
 | DynamicHigh | 25-35% | Balanced |
 | DynamicEpic | 35-45% | Quality - Best visuals |
 
+### Competitive Settings
+
+> ⚠️ **WARNING**: Some settings in this section are experimental and may cause instability or visual artifacts. Settings marked with ⚠️ should be tested carefully before use in ranked matches.
+
+#### Mouse & Input
+| Setting | Recommended | Description |
+|---------|-------------|-------------|
+| Mouse Smoothing | OFF | Adds input lag and inconsistent aim |
+| Mouse Acceleration | OFF | Causes inconsistent muscle memory |
+
+#### Visual Clutter
+| Setting | Competitive Value | Effect |
+|---------|------------------|--------|
+| Depth of Field | 0 (Off) | Removes distance blur |
+| Bloom | 0 (Off) | Reduces visual noise |
+| Lens Flare | 0 (Off) | Prevents light obstruction |
+| Chromatic Aberration | 0 (Off) | Cleaner screen edges |
+| Vignette | 0 (Off) | Full peripheral visibility |
+| Film Grain | 0 (Off) | Cleaner image |
+
+#### Performance Tweaks (⚠️ Experimental)
+| Setting | Value | Effect | Stability |
+|---------|-------|--------|-----------|
+| One Frame Thread Lag | 0 | -1 frame input lag | ⚠️ May stutter |
+| Smooth Frame Rate | Off | Lower latency | ⚠️ May stutter |
+| Precompile Shaders | On | Less in-game stutter | Stable |
+
+#### VRAM & Textures
+| Setting | Recommendation | Notes |
+|---------|---------------|-------|
+| Texture Pool Size | GPU VRAM-based | 6GB=4096, 8GB=6144, 12GB+=8192 |
+| Anisotropic Filtering | 16x | Minimal performance impact |
+
+#### Audio
+| Setting | Competitive Value | Effect |
+|---------|------------------|--------|
+| Audio Quality | Epic (3) | Best positional audio |
+| Audio Spatialization | On | Better enemy location |
+
 ## Security
 
 This application is designed with security in mind:
