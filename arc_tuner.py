@@ -1154,6 +1154,50 @@ class ArcTunerApp:
                  background=[('active', self.colors['accent_hover']),
                             ('pressed', self.colors['accent_dim'])])
 
+        # Add button style (green)
+        style.configure('Add.TButton',
+                       background=self.colors['success'],
+                       foreground='#ffffff',
+                       padding=[8, 4],
+                       font=('Segoe UI', 9, 'bold'))
+
+        style.map('Add.TButton',
+                 background=[('active', '#5cbf60'),
+                            ('pressed', '#3d8b40')])
+
+        # Remove button style (red)
+        style.configure('Remove.TButton',
+                       background=self.colors['error'],
+                       foreground='#ffffff',
+                       padding=[8, 4],
+                       font=('Segoe UI', 9, 'bold'))
+
+        style.map('Remove.TButton',
+                 background=[('active', '#ff5252'),
+                            ('pressed', '#d32f2f')])
+
+        # Warning frame style for competitive settings
+        style.configure('Warning.TFrame', background='#3d3520')
+        style.configure('Warning.TLabel',
+                       background='#3d3520',
+                       foreground=self.colors['warning'],
+                       font=('Segoe UI', 10))
+
+        # Not Added style (dimmed card)
+        style.configure('NotAdded.TFrame', background='#252525')
+        style.configure('NotAdded.TLabel',
+                       background='#252525',
+                       foreground=self.colors['text_dim'],
+                       font=('Segoe UI', 10))
+        style.configure('NotAddedHeader.TLabel',
+                       background='#252525',
+                       foreground=self.colors['text_dim'],
+                       font=('Segoe UI', 12, 'bold'))
+        style.configure('NotAddedDesc.TLabel',
+                       background='#252525',
+                       foreground=self.colors['text_dark'],
+                       font=('Segoe UI', 9))
+
         # === Combobox Styles ===
         style.configure('TCombobox',
                        background=self.colors['bg_light'],
@@ -1301,8 +1345,19 @@ class ArcTunerApp:
                 categories[definition.category] = []
             categories[definition.category].append(definition)
 
+        # Store reference to competitive settings for dynamic updates
+        self.competitive_settings_definitions = []
+        self.competitive_tab_frame = None
+        self.competitive_scrollable_frame = None
+        self.competitive_canvas = None
+
         for category, settings in categories.items():
-            self._create_category_tab(category, settings)
+            if category == "Competitive Settings":
+                # Store definitions for later and create special tab
+                self.competitive_settings_definitions = settings
+                self._create_competitive_settings_tab(category, settings)
+            else:
+                self._create_category_tab(category, settings)
 
         # === Bottom Button Bar ===
         button_frame = ttk.Frame(main_frame)
@@ -1438,7 +1493,323 @@ class ArcTunerApp:
                 'var': var,
                 'definition': definition
             }
-            
+
+    def _create_competitive_settings_tab(self, category: str, settings: list):
+        """Create special tab for Competitive Settings with Add/Remove functionality."""
+        # Create tab frame
+        self.competitive_tab_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.competitive_tab_frame, text=f"  {category}  ")
+
+        # Canvas for scrolling
+        self.competitive_canvas = tk.Canvas(self.competitive_tab_frame, highlightthickness=0,
+                                           bg=self.colors['bg_dark'], borderwidth=0)
+        scrollbar = ttk.Scrollbar(self.competitive_tab_frame, orient="vertical",
+                                  command=self.competitive_canvas.yview)
+        self.competitive_scrollable_frame = ttk.Frame(self.competitive_canvas)
+
+        self.competitive_scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.competitive_canvas.configure(scrollregion=self.competitive_canvas.bbox("all"))
+        )
+
+        self.competitive_canvas.create_window((0, 0), window=self.competitive_scrollable_frame, anchor="nw")
+        self.competitive_canvas.configure(yscrollcommand=scrollbar.set)
+
+        self.competitive_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Build initial content
+        self._refresh_competitive_settings_tab()
+
+    def _refresh_competitive_settings_tab(self):
+        """Refresh the competitive settings tab to show current state."""
+        # Clear existing widgets
+        for widget in self.competitive_scrollable_frame.winfo_children():
+            widget.destroy()
+
+        # Remove competitive settings from setting_widgets (they'll be re-added if in config)
+        for definition in self.competitive_settings_definitions:
+            if definition.key in self.setting_widgets:
+                del self.setting_widgets[definition.key]
+
+        # Warning banner
+        warning_frame = ttk.Frame(self.competitive_scrollable_frame, style='Warning.TFrame', padding="12")
+        warning_frame.pack(fill=tk.X, pady=(4, 8), padx=8)
+
+        warning_text = ("These are hidden/advanced settings not exposed in the game's options menu. "
+                       "They will be ADDED to your config file when enabled. Some settings marked with "
+                       "a warning icon may cause instability. Always create a backup before making changes.")
+        ttk.Label(warning_frame, text=warning_text, style='Warning.TLabel',
+                 wraplength=700).pack(fill=tk.X)
+
+        # Bulk action buttons
+        bulk_frame = ttk.Frame(self.competitive_scrollable_frame, padding="8")
+        bulk_frame.pack(fill=tk.X, padx=8, pady=(0, 8))
+
+        ttk.Button(bulk_frame, text="+ Add All Settings", style='Add.TButton',
+                  command=self._add_all_competitive_settings).pack(side=tk.LEFT, padx=(0, 10))
+        ttk.Button(bulk_frame, text="- Remove All Settings", style='Remove.TButton',
+                  command=self._remove_all_competitive_settings).pack(side=tk.LEFT)
+
+        # Count added/not added
+        added_count = sum(1 for d in self.competitive_settings_definitions
+                        if self._is_setting_in_config(d))
+        total_count = len(self.competitive_settings_definitions)
+
+        status_text = f"  ({added_count}/{total_count} settings active in config)"
+        ttk.Label(bulk_frame, text=status_text, style='Status.TLabel').pack(side=tk.LEFT, padx=(20, 0))
+
+        # Separator
+        sep = ttk.Frame(self.competitive_scrollable_frame, height=2)
+        sep.pack(fill=tk.X, padx=8, pady=4)
+
+        # Display each setting
+        for i, definition in enumerate(self.competitive_settings_definitions):
+            is_in_config = self._is_setting_in_config(definition)
+            self._create_competitive_setting_widget(
+                self.competitive_scrollable_frame, definition, i, is_in_config
+            )
+
+    def _is_setting_in_config(self, definition: SettingDefinition) -> bool:
+        """Check if a competitive setting exists in the current config."""
+        if not self.config_manager.current_config:
+            return False
+
+        section = definition.section
+        key = definition.key
+
+        if section in self.config_manager.current_config:
+            return key in self.config_manager.current_config[section]
+        return False
+
+    def _create_competitive_setting_widget(self, parent: ttk.Frame, definition: SettingDefinition,
+                                           row: int, is_in_config: bool):
+        """Create a widget for a competitive setting with Add/Remove button."""
+        if is_in_config:
+            # Setting IS in config - show full controls with Remove button
+            frame = ttk.Frame(parent, style='Card.TFrame', padding="12")
+            frame.pack(fill=tk.X, pady=4, padx=8)
+
+            # Status indicator
+            status_frame = ttk.Frame(frame, style='Card.TFrame')
+            status_frame.pack(fill=tk.X)
+
+            ttk.Label(status_frame, text="ACTIVE", foreground=self.colors['success'],
+                     background=self.colors['bg_medium'], font=('Segoe UI', 8, 'bold')).pack(side=tk.LEFT)
+
+            # Left side: label and description
+            left_frame = ttk.Frame(frame, style='Card.TFrame')
+            left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+            name_frame = ttk.Frame(left_frame, style='Card.TFrame')
+            name_frame.pack(fill=tk.X)
+
+            ttk.Label(name_frame, text=definition.display_name, style='Header.TLabel').pack(side=tk.LEFT)
+
+            impact_style = f'Impact.{"VeryHigh" if definition.performance_impact == "Very High" else definition.performance_impact}.TLabel'
+            impact_text = f" [{definition.performance_impact} Impact]"
+            ttk.Label(name_frame, text=impact_text, style=impact_style).pack(side=tk.LEFT, padx=(10, 0))
+
+            desc_label = ttk.Label(left_frame, text=definition.description,
+                                  style='Description.TLabel', wraplength=450)
+            desc_label.pack(fill=tk.X, pady=(4, 0))
+
+            # Right side: control widget + Remove button
+            right_frame = ttk.Frame(frame, style='Card.TFrame')
+            right_frame.pack(side=tk.RIGHT, padx=(20, 0))
+
+            # Control widget
+            control_frame = ttk.Frame(right_frame, style='Card.TFrame')
+            control_frame.pack(side=tk.LEFT, padx=(0, 10))
+
+            widget = None
+            var = None
+
+            if definition.setting_type == "choice":
+                var = tk.StringVar()
+                if definition.options and isinstance(definition.options[0], tuple):
+                    values = [opt[1] for opt in definition.options]
+                    value_map = {opt[1]: opt[0] for opt in definition.options}
+                    reverse_map = {opt[0]: opt[1] for opt in definition.options}
+                else:
+                    values = definition.options
+                    value_map = {v: v for v in values}
+                    reverse_map = value_map
+
+                widget = ttk.Combobox(control_frame, textvariable=var, values=values,
+                                     state="readonly", width=18)
+                widget.pack()
+                widget._value_map = value_map
+                widget._reverse_map = reverse_map
+
+                # Set current value from config
+                current_val = self.config_manager.get_setting(definition.key)
+                if current_val:
+                    display_val = reverse_map.get(current_val, current_val)
+                    var.set(display_val)
+
+                var.trace_add('write', lambda *args, k=definition.key: self._on_setting_changed(k))
+
+            elif definition.setting_type == "boolean":
+                var = tk.BooleanVar()
+                widget = ttk.Checkbutton(control_frame, variable=var, text="Enabled")
+                widget.pack()
+
+                current_val = self.config_manager.get_setting(definition.key)
+                if current_val:
+                    var.set(current_val.lower() == 'true')
+
+                var.trace_add('write', lambda *args, k=definition.key: self._on_setting_changed(k))
+
+            elif definition.setting_type == "number":
+                var = tk.StringVar()
+                widget = ttk.Entry(control_frame, textvariable=var, width=10)
+                widget.pack()
+
+                current_val = self.config_manager.get_setting(definition.key)
+                if current_val:
+                    var.set(current_val)
+
+                var.trace_add('write', lambda *args, k=definition.key: self._on_setting_changed(k))
+
+            elif definition.setting_type == "slider":
+                var = tk.IntVar()
+                slider_subframe = ttk.Frame(control_frame, style='Card.TFrame')
+                slider_subframe.pack()
+
+                widget = ttk.Scale(slider_subframe, from_=definition.min_val,
+                                  to=definition.max_val, variable=var,
+                                  orient=tk.HORIZONTAL, length=120)
+                widget.pack(side=tk.LEFT)
+
+                value_label = ttk.Label(slider_subframe, textvariable=var, width=5,
+                                       background=self.colors['bg_medium'])
+                value_label.pack(side=tk.LEFT, padx=(5, 0))
+
+                current_val = self.config_manager.get_setting(definition.key)
+                if current_val:
+                    try:
+                        var.set(int(float(current_val)))
+                    except ValueError:
+                        var.set(int(definition.default))
+
+                var.trace_add('write', lambda *args, k=definition.key: self._on_setting_changed(k))
+
+            if widget and var:
+                self.setting_widgets[definition.key] = {
+                    'widget': widget,
+                    'var': var,
+                    'definition': definition
+                }
+
+            # Remove button
+            ttk.Button(right_frame, text="Remove", style='Remove.TButton',
+                      command=lambda d=definition: self._remove_competitive_setting(d)).pack(side=tk.LEFT)
+
+        else:
+            # Setting NOT in config - show dimmed card with Add button
+            frame = ttk.Frame(parent, style='NotAdded.TFrame', padding="12")
+            frame.pack(fill=tk.X, pady=4, padx=8)
+
+            # Status indicator
+            status_frame = ttk.Frame(frame, style='NotAdded.TFrame')
+            status_frame.pack(fill=tk.X)
+
+            ttk.Label(status_frame, text="NOT ADDED", foreground=self.colors['text_dark'],
+                     background='#252525', font=('Segoe UI', 8, 'bold')).pack(side=tk.LEFT)
+
+            # Left side: label and description
+            left_frame = ttk.Frame(frame, style='NotAdded.TFrame')
+            left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+            name_frame = ttk.Frame(left_frame, style='NotAdded.TFrame')
+            name_frame.pack(fill=tk.X)
+
+            ttk.Label(name_frame, text=definition.display_name,
+                     style='NotAddedHeader.TLabel').pack(side=tk.LEFT)
+
+            # Show default value hint
+            default_text = f" [Default: {definition.default}]"
+            ttk.Label(name_frame, text=default_text, style='NotAddedDesc.TLabel').pack(side=tk.LEFT, padx=(10, 0))
+
+            desc_label = ttk.Label(left_frame, text=definition.description,
+                                  style='NotAddedDesc.TLabel', wraplength=550)
+            desc_label.pack(fill=tk.X, pady=(4, 0))
+
+            # Right side: Add button
+            right_frame = ttk.Frame(frame, style='NotAdded.TFrame')
+            right_frame.pack(side=tk.RIGHT, padx=(20, 0))
+
+            ttk.Button(right_frame, text="+ Add", style='Add.TButton',
+                      command=lambda d=definition: self._add_competitive_setting(d)).pack()
+
+    def _add_competitive_setting(self, definition: SettingDefinition):
+        """Add a single competitive setting to the config."""
+        # Ensure section exists
+        if definition.section not in self.config_manager.current_config:
+            self.config_manager.current_config[definition.section] = {}
+
+        # Add with default value
+        default_val = str(definition.default)
+        self.config_manager.current_config[definition.section][definition.key] = default_val
+
+        self.unsaved_changes = True
+        self._update_changes_label()
+        self._refresh_competitive_settings_tab()
+
+    def _remove_competitive_setting(self, definition: SettingDefinition):
+        """Remove a single competitive setting from the config."""
+        if definition.section in self.config_manager.current_config:
+            if definition.key in self.config_manager.current_config[definition.section]:
+                del self.config_manager.current_config[definition.section][definition.key]
+
+                # Remove from setting_widgets
+                if definition.key in self.setting_widgets:
+                    del self.setting_widgets[definition.key]
+
+        self.unsaved_changes = True
+        self._update_changes_label()
+        self._refresh_competitive_settings_tab()
+
+    def _add_all_competitive_settings(self):
+        """Add all competitive settings to the config."""
+        if not messagebox.askyesno("Add All Competitive Settings",
+                                   "This will add ALL competitive settings to your config file.\n\n"
+                                   "Some settings are experimental and may cause instability.\n"
+                                   "A backup is recommended before proceeding.\n\n"
+                                   "Continue?"):
+            return
+
+        for definition in self.competitive_settings_definitions:
+            if not self._is_setting_in_config(definition):
+                if definition.section not in self.config_manager.current_config:
+                    self.config_manager.current_config[definition.section] = {}
+                self.config_manager.current_config[definition.section][definition.key] = str(definition.default)
+
+        self.unsaved_changes = True
+        self._update_changes_label()
+        self._refresh_competitive_settings_tab()
+
+    def _remove_all_competitive_settings(self):
+        """Remove all competitive settings from the config."""
+        if not messagebox.askyesno("Remove All Competitive Settings",
+                                   "This will remove ALL competitive settings from your config file.\n\n"
+                                   "Your config will return to using game defaults for these settings.\n\n"
+                                   "Continue?"):
+            return
+
+        for definition in self.competitive_settings_definitions:
+            if definition.section in self.config_manager.current_config:
+                if definition.key in self.config_manager.current_config[definition.section]:
+                    del self.config_manager.current_config[definition.section][definition.key]
+
+            if definition.key in self.setting_widgets:
+                del self.setting_widgets[definition.key]
+
+        self.unsaved_changes = True
+        self._update_changes_label()
+        self._refresh_competitive_settings_tab()
+
     def _bind_events(self):
         """Bind keyboard and window events."""
         self.root.bind('<Control-o>', lambda e: self._browse_config())
@@ -1509,7 +1880,11 @@ class ArcTunerApp:
             self.status_label.config(text=f"Loaded: {self.config_manager.config_path}")
             self.unsaved_changes = False
             self._update_changes_label()
-            
+
+            # Refresh competitive settings tab to show which settings exist in config
+            if self.competitive_scrollable_frame:
+                self._refresh_competitive_settings_tab()
+
         except Exception as e:
             logger.error(f"Failed to load config: {e}")
             messagebox.showerror("Error", f"Failed to load config: {e}")
