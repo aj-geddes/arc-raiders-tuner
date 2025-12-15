@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Proton prefix detection for Arc Raiders (App ID: 1808500)
   - Platform-aware config path resolution
 - 10 new test functions for SteamOS support
+- **Changelog Maintenance section** in CLAUDE.md with guidelines for updating CHANGELOG.md
 
 ### Changed
 - `ConfigManager` now uses automatic platform detection for default paths

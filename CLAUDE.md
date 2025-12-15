@@ -32,6 +32,59 @@ pip install pyinstaller
 pyinstaller --onefile --windowed --name "ArcRaidersTuner" arc_tuner.py
 ```
 
+## Changelog Maintenance
+
+**IMPORTANT**: Always update `CHANGELOG.md` when making notable changes to the codebase. The changelog should be updated in the same commit as the feature or fix.
+
+### Guidelines
+
+1. **Format**: Follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
+2. **Location**: Add all changes under the `[Unreleased]` section at the top of the file
+3. **Categories**: Use these standard categories in order:
+   - `### Added` - New features
+   - `### Changed` - Changes to existing functionality
+   - `### Deprecated` - Soon-to-be removed features
+   - `### Removed` - Removed features
+   - `### Fixed` - Bug fixes
+   - `### Security` - Security-related changes
+4. **Style**:
+   - Use present tense ("Add feature" not "Added feature")
+   - Be concise but descriptive
+   - Group related changes with sub-bullets when appropriate
+   - Bold the main feature/component name for clarity
+
+### Example Workflow
+
+```bash
+# 1. Make your code changes
+vim arc_tuner.py
+
+# 2. Update the changelog
+vim CHANGELOG.md
+# Add entry under [Unreleased] > ### Added (or appropriate category):
+# - **New setting**: Add FOV slider for first-person view
+
+# 3. Commit both together
+git add arc_tuner.py CHANGELOG.md
+git commit -m "Add FOV slider for first-person view"
+```
+
+### What to Document
+
+**DO document**:
+- New features or settings
+- Changes to existing behavior
+- Bug fixes
+- Performance improvements
+- Breaking changes
+- Security fixes
+- Documentation updates (major ones)
+
+**DON'T document**:
+- Code refactoring with no user-visible changes
+- Minor typo fixes in comments
+- Internal test improvements (unless adding major test coverage)
+
 ## Architecture
 
 The application has a single main file (`arc_tuner.py`, ~1900 lines) with three major components:
