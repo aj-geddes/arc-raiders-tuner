@@ -1,0 +1,14 @@
+# Arc Raiders Config Tuner Dependencies
+# 
+# For development:
+# pip install -r requirements.txt
+#
+# For building standalone .exe:
+# pip install pyinstaller
+# pyinstaller --onefile --windowed --name "ArcTuner" arc_tuner.py
+
+# No external runtime dependencies - uses only Python stdlib!
+# tkinter is included with Python on Windows
+
+# Build tools (install these to create the .exe)
+pyinstaller>=6.0
