@@ -188,12 +188,52 @@ keywords: Arc Raiders, config, settings, DLSS, FSR, Ray Tracing, Reflex, graphic
     <div class="system-requirements">
       <h3 class="requirements-title">System Requirements</h3>
       <ul class="requirements-list">
-        <li><strong>Operating System:</strong> Windows 10 or Windows 11</li>
-        <li><strong>For Executable:</strong> No additional requirements</li>
+        <li><strong>Operating System:</strong> Windows 10/11, SteamOS (Steam Deck), or Linux with Steam/Proton</li>
+        <li><strong>For Windows Executable:</strong> No additional requirements</li>
         <li><strong>For Source Code:</strong> Python 3.8 or higher</li>
+        <li><strong>For SteamOS/Linux:</strong> python3-tk package (for GUI support)</li>
       </ul>
     </div>
 
+  </div>
+</section>
+
+<section class="steamos-section">
+  <div class="container">
+    <h2 class="section-title">SteamOS / Steam Deck</h2>
+    <p class="steamos-intro">
+      Arc Raiders is <strong>Steam Deck Verified</strong>, and the Arc Raiders Config Tuner works great on SteamOS!
+      The tuner automatically detects your Steam/Proton config location, making it easy to optimize your handheld experience.
+    </p>
+
+    <div class="steamos-instructions">
+      <h3 class="steamos-subtitle">Running on SteamOS</h3>
+      <ol class="steamos-steps">
+        <li>
+          <strong>Switch to Desktop Mode</strong><br>
+          Press the Steam button, select Power, then "Switch to Desktop"
+        </li>
+        <li>
+          <strong>Install GUI Support (one-time setup)</strong><br>
+          Open Konsole and run:<br>
+          <code class="code-block">sudo steamos-readonly disable<br>sudo pacman -S python python-pip python-tkinter<br>sudo steamos-readonly enable</code>
+        </li>
+        <li>
+          <strong>Download and Run</strong><br>
+          Download the source from GitHub, extract it, and run:<br>
+          <code class="code-block">python arc_tuner.py</code>
+        </li>
+        <li>
+          <strong>Auto-Detection Magic</strong><br>
+          The tuner automatically finds your config at:<br>
+          <code class="code-inline">~/.steam/steam/steamapps/compatdata/.../pfx/drive_c/users/steamuser/AppData/Local/PioneerGame/</code>
+        </li>
+      </ol>
+    </div>
+
+    <div class="steamos-note">
+      <p><strong>Linux Users:</strong> The tuner also works on desktop Linux with Steam/Proton! The same automatic config detection applies to any Linux system running Arc Raiders through Steam.</p>
+    </div>
   </div>
 </section>
 

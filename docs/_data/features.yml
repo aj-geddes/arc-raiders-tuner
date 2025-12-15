@@ -18,6 +18,11 @@
   icon: "star"
   highlight: true
 
+- title: "Cross-Platform"
+  description: "Works on Windows, SteamOS (Steam Deck Verified!), and Linux with Steam/Proton. Automatic config detection across all platforms."
+  icon: "devices"
+  highlight: true
+
 - title: "Zero Dependencies"
   description: "Single executable file, no installation required. No .NET, no runtime dependencies. Download, run, done."
   icon: "download"

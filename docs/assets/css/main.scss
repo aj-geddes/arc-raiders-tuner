@@ -799,6 +799,158 @@ section {
 }
 
 // ============================================================================
+// SteamOS / Steam Deck Section
+// ============================================================================
+
+.steamos-section {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 180, 216, 0.05) 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(45deg, transparent 48%, rgba(0, 180, 216, 0.02) 49%, rgba(0, 180, 216, 0.02) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(0, 180, 216, 0.02) 49%, rgba(0, 180, 216, 0.02) 51%, transparent 52%);
+    background-size: 50px 50px;
+    opacity: 0.5;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.steamos-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto var(--spacing-lg);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--cyan-highlight);
+  }
+}
+
+.steamos-instructions {
+  background-color: var(--bg-medium);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+}
+
+.steamos-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--cyan-highlight);
+  text-align: center;
+}
+
+.steamos-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step-counter;
+
+  li {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--cyan-highlight);
+    border-radius: 8px;
+    position: relative;
+    padding-left: calc(var(--spacing-md) + 0.5rem);
+    transition: all var(--transition-normal);
+
+    &:hover {
+      border-color: var(--cyan-highlight);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(0, 180, 216, 0.2);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      display: block;
+      color: var(--cyan-highlight);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    br {
+      display: block;
+      content: "";
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.code-block {
+  display: block;
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: var(--spacing-sm);
+  margin-top: 0.75rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: var(--cyan-highlight);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.5;
+
+  br {
+    display: block;
+    content: "";
+    margin: 0.25rem 0;
+  }
+}
+
+.code-inline {
+  display: block;
+  background-color: var(--bg-light);
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.steamos-note {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--bg-medium);
+  border-left: 4px solid var(--cyan-highlight);
+  border-radius: 0 8px 8px 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  strong {
+    color: var(--cyan-highlight);
+  }
+}
+
+// ============================================================================
 // Download Section
 // ============================================================================
 

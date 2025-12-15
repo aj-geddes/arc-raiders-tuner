@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [2.0.0] - 2025-12-15
+
+### Added
 - **SteamOS/Linux platform support** with automatic detection
   - Automatic platform detection (Windows vs Linux)
   - Steam installation finder (standard and Flatpak locations)
@@ -68,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Path validation to prevent access to system directories
 - Safe file operations with proper encoding handling
 
-[Unreleased]: https://github.com/aj-geddes/arc-raiders-tuner/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/aj-geddes/arc-raiders-tuner/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/aj-geddes/arc-raiders-tuner/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/aj-geddes/arc-raiders-tuner/compare/v1.0.0...v1.1.1
 [1.0.0]: https://github.com/aj-geddes/arc-raiders-tuner/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/aj-geddes/arc-raiders-tuner/releases/tag/v0.1.0

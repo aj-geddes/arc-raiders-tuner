@@ -1,0 +1,55 @@
+---
+layout: default
+title: Features - Arc Raiders Config Tuner
+description: Explore all the features of Arc Raiders Config Tuner including easy settings editor, automatic backups, multiple profiles, built-in presets, and more.
+keywords: Arc Raiders, features, settings editor, backups, profiles, presets, open source, zero dependencies
+---
+
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-title">FEATURES</h1>
+    <p class="hero-tagline">Everything you need to optimize your Arc Raiders experience.</p>
+    <p class="hero-description">
+      Arc Raiders Config Tuner provides a comprehensive set of features designed to make graphics configuration simple and safe.
+      From automatic backups to expertly crafted presets, every feature is built with the player in mind.
+    </p>
+    <div class="hero-buttons">
+      <a href="{{ '/' | relative_url }}" class="btn btn-secondary">Back to Home</a>
+      <a href="https://github.com/aj-geddes/arc-raiders-tuner/releases/latest" class="btn btn-primary">Download Now</a>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">All Features</h2>
+    <div class="features-grid">
+      {% for feature in site.data.features %}
+      <div class="feature-card{% if feature.highlight %} feature-highlight{% endif %}">
+        <div class="feature-icon">
+          <span class="icon-placeholder">{{ feature.icon }}</span>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="download">
+  <div class="container">
+    <h2 class="section-title">Ready to Get Started?</h2>
+    <p class="download-description">
+      Download Arc Raiders Config Tuner and start optimizing your game settings today.
+    </p>
+    <div class="download-button-container">
+      <a href="https://github.com/aj-geddes/arc-raiders-tuner/releases/latest" class="btn btn-primary btn-large">
+        Download Latest Release
+      </a>
+    </div>
+    <p style="text-align: center; margin-top: 1.5rem;">
+      <a href="{{ '/' | relative_url }}" style="color: var(--color-accent); text-decoration: none;">← Back to Home</a>
+    </p>
+  </div>
+</section>
