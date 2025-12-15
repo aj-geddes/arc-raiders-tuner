@@ -766,9 +766,9 @@ class ArcTunerApp:
     
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Arc Raiders Config Tuner")
-        self.root.geometry("1000x700")
-        self.root.minsize(800, 600)
+        self.root.title("ARC RAIDERS // CONFIG TUNER")
+        self.root.geometry("1050x750")
+        self.root.minsize(900, 650)
         
         # Set icon if available
         try:
@@ -790,159 +790,347 @@ class ArcTunerApp:
         self._auto_detect_config()
         
     def _create_styles(self):
-        """Configure ttk styles."""
+        """Configure ttk styles with Arc Raiders dark theme."""
         style = ttk.Style()
-        
-        # Use a modern theme if available
-        available_themes = style.theme_names()
-        if 'vista' in available_themes:
-            style.theme_use('vista')
-        elif 'clam' in available_themes:
-            style.theme_use('clam')
-            
-        # Custom styles
-        style.configure('Header.TLabel', font=('Segoe UI', 12, 'bold'))
-        style.configure('Description.TLabel', font=('Segoe UI', 9), foreground='#666666')
-        style.configure('Impact.High.TLabel', foreground='#cc0000')
-        style.configure('Impact.Medium.TLabel', foreground='#cc6600')
-        style.configure('Impact.Low.TLabel', foreground='#006600')
-        style.configure('Impact.VeryHigh.TLabel', foreground='#990000', font=('Segoe UI', 9, 'bold'))
+
+        # Arc Raiders color palette
+        self.colors = {
+            'bg_dark': '#1a1a1a',       # Main background
+            'bg_medium': '#2d2d2d',      # Panel background
+            'bg_light': '#3d3d3d',       # Lighter elements
+            'bg_hover': '#4a4a4a',       # Hover state
+            'accent': '#ff6b00',         # Orange accent (Arc Raiders brand)
+            'accent_hover': '#ff8c00',   # Lighter orange
+            'accent_dim': '#cc5500',     # Darker orange
+            'text': '#e0e0e0',           # Primary text
+            'text_dim': '#999999',       # Secondary text
+            'text_dark': '#666666',      # Disabled text
+            'border': '#404040',         # Border color
+            'success': '#4caf50',        # Green for success
+            'warning': '#ff9800',        # Warning orange
+            'error': '#f44336',          # Error red
+            'cyan': '#00b4d8',           # Cyan accent for highlights
+        }
+
+        # Use clam as base theme (most customizable)
+        style.theme_use('clam')
+
+        # Configure root window colors
+        self.root.configure(bg=self.colors['bg_dark'])
+
+        # === Frame Styles ===
+        style.configure('TFrame', background=self.colors['bg_dark'])
+        style.configure('Card.TFrame', background=self.colors['bg_medium'])
+
+        # === Label Styles ===
+        style.configure('TLabel',
+                       background=self.colors['bg_dark'],
+                       foreground=self.colors['text'],
+                       font=('Segoe UI', 10))
+
+        style.configure('Header.TLabel',
+                       font=('Segoe UI', 12, 'bold'),
+                       foreground=self.colors['text'],
+                       background=self.colors['bg_medium'])
+
+        style.configure('Title.TLabel',
+                       font=('Segoe UI', 14, 'bold'),
+                       foreground=self.colors['accent'],
+                       background=self.colors['bg_dark'])
+
+        style.configure('Description.TLabel',
+                       font=('Segoe UI', 9),
+                       foreground=self.colors['text_dim'],
+                       background=self.colors['bg_medium'])
+
+        # Impact level styles - adjusted for dark theme
+        style.configure('Impact.Low.TLabel',
+                       foreground=self.colors['success'],
+                       background=self.colors['bg_medium'],
+                       font=('Segoe UI', 9))
+        style.configure('Impact.Medium.TLabel',
+                       foreground=self.colors['warning'],
+                       background=self.colors['bg_medium'],
+                       font=('Segoe UI', 9))
+        style.configure('Impact.High.TLabel',
+                       foreground='#ff6b6b',
+                       background=self.colors['bg_medium'],
+                       font=('Segoe UI', 9))
+        style.configure('Impact.VeryHigh.TLabel',
+                       foreground=self.colors['error'],
+                       background=self.colors['bg_medium'],
+                       font=('Segoe UI', 9, 'bold'))
+
+        # Status labels
+        style.configure('Status.TLabel',
+                       background=self.colors['bg_dark'],
+                       foreground=self.colors['text_dim'],
+                       font=('Segoe UI', 9))
+
+        # === Notebook (Tab) Styles ===
+        style.configure('TNotebook',
+                       background=self.colors['bg_dark'],
+                       borderwidth=0,
+                       tabmargins=[0, 0, 0, 0])
+
+        style.configure('TNotebook.Tab',
+                       background=self.colors['bg_light'],
+                       foreground=self.colors['text_dim'],
+                       padding=[16, 8],
+                       font=('Segoe UI', 10, 'bold'),
+                       borderwidth=0)
+
+        style.map('TNotebook.Tab',
+                 background=[('selected', self.colors['accent']),
+                            ('active', self.colors['bg_hover'])],
+                 foreground=[('selected', '#ffffff'),
+                            ('active', self.colors['text'])],
+                 expand=[('selected', [0, 0, 0, 2])])
+
+        # === Button Styles ===
+        style.configure('TButton',
+                       background=self.colors['bg_light'],
+                       foreground=self.colors['text'],
+                       padding=[12, 6],
+                       font=('Segoe UI', 10),
+                       borderwidth=1)
+
+        style.map('TButton',
+                 background=[('active', self.colors['bg_hover']),
+                            ('pressed', self.colors['accent_dim'])],
+                 foreground=[('active', self.colors['text'])])
+
+        # Accent button style
+        style.configure('Accent.TButton',
+                       background=self.colors['accent'],
+                       foreground='#ffffff',
+                       padding=[16, 8],
+                       font=('Segoe UI', 10, 'bold'))
+
+        style.map('Accent.TButton',
+                 background=[('active', self.colors['accent_hover']),
+                            ('pressed', self.colors['accent_dim'])])
+
+        # === Combobox Styles ===
+        style.configure('TCombobox',
+                       background=self.colors['bg_light'],
+                       foreground=self.colors['text'],
+                       fieldbackground=self.colors['bg_light'],
+                       arrowcolor=self.colors['accent'],
+                       borderwidth=1,
+                       padding=5)
+
+        style.map('TCombobox',
+                 fieldbackground=[('readonly', self.colors['bg_light'])],
+                 selectbackground=[('readonly', self.colors['accent'])],
+                 selectforeground=[('readonly', '#ffffff')])
+
+        # === Checkbutton Styles ===
+        style.configure('TCheckbutton',
+                       background=self.colors['bg_medium'],
+                       foreground=self.colors['text'],
+                       font=('Segoe UI', 10))
+
+        style.map('TCheckbutton',
+                 background=[('active', self.colors['bg_medium'])],
+                 indicatorcolor=[('selected', self.colors['accent']),
+                                ('!selected', self.colors['bg_light'])])
+
+        # === Entry Styles ===
+        style.configure('TEntry',
+                       fieldbackground=self.colors['bg_light'],
+                       foreground=self.colors['text'],
+                       borderwidth=1,
+                       padding=5)
+
+        # === Scale (Slider) Styles ===
+        style.configure('TScale',
+                       background=self.colors['bg_medium'],
+                       troughcolor=self.colors['bg_light'],
+                       borderwidth=0)
+
+        style.configure('Horizontal.TScale',
+                       background=self.colors['bg_medium'])
+
+        # === Scrollbar Styles ===
+        style.configure('TScrollbar',
+                       background=self.colors['bg_light'],
+                       troughcolor=self.colors['bg_dark'],
+                       borderwidth=0,
+                       arrowcolor=self.colors['text_dim'])
+
+        style.map('TScrollbar',
+                 background=[('active', self.colors['accent']),
+                            ('pressed', self.colors['accent_dim'])])
         
     def _create_menu(self):
-        """Create the menu bar."""
-        menubar = tk.Menu(self.root)
+        """Create the menu bar with dark theme."""
+        menu_bg = self.colors['bg_medium']
+        menu_fg = self.colors['text']
+        menu_active_bg = self.colors['accent']
+        menu_active_fg = '#ffffff'
+
+        menubar = tk.Menu(self.root, bg=menu_bg, fg=menu_fg,
+                         activebackground=menu_active_bg, activeforeground=menu_active_fg,
+                         borderwidth=0)
         self.root.config(menu=menubar)
-        
+
+        menu_config = {
+            'bg': menu_bg, 'fg': menu_fg,
+            'activebackground': menu_active_bg, 'activeforeground': menu_active_fg,
+            'tearoff': 0, 'borderwidth': 0
+        }
+
         # File menu
-        file_menu = tk.Menu(menubar, tearoff=0)
+        file_menu = tk.Menu(menubar, **menu_config)
         menubar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Open Config...", command=self._browse_config, accelerator="Ctrl+O")
         file_menu.add_command(label="Save", command=self._save_config, accelerator="Ctrl+S")
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self._on_close)
-        
+
         # Profiles menu
-        profile_menu = tk.Menu(menubar, tearoff=0)
+        profile_menu = tk.Menu(menubar, **menu_config)
         menubar.add_cascade(label="Profiles", menu=profile_menu)
         profile_menu.add_command(label="Save Profile...", command=self._save_profile_dialog)
         profile_menu.add_command(label="Load Profile...", command=self._load_profile_dialog)
         profile_menu.add_command(label="Manage Profiles...", command=self._manage_profiles_dialog)
-        
+
         # Backups menu
-        backup_menu = tk.Menu(menubar, tearoff=0)
+        backup_menu = tk.Menu(menubar, **menu_config)
         menubar.add_cascade(label="Backups", menu=backup_menu)
         backup_menu.add_command(label="Create Backup", command=self._create_backup)
         backup_menu.add_command(label="Restore Backup...", command=self._restore_backup_dialog)
         backup_menu.add_command(label="Open Backup Folder", command=self._open_backup_folder)
-        
+
         # Presets menu
-        preset_menu = tk.Menu(menubar, tearoff=0)
+        preset_menu = tk.Menu(menubar, **menu_config)
         menubar.add_cascade(label="Presets", menu=preset_menu)
         for preset_name, preset_data in PRESETS.items():
             preset_menu.add_command(
-                label=f"{preset_name} - {preset_data['description']}", 
+                label=f"{preset_name} - {preset_data['description']}",
                 command=lambda n=preset_name: self._apply_preset(n)
             )
-            
+
         # Help menu
-        help_menu = tk.Menu(menubar, tearoff=0)
+        help_menu = tk.Menu(menubar, **menu_config)
         menubar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="About", command=self._show_about)
         
     def _create_ui(self):
-        """Create the main UI."""
+        """Create the main UI with Arc Raiders styling."""
         # Main container
-        main_frame = ttk.Frame(self.root, padding="5")
+        main_frame = ttk.Frame(self.root, padding="10")
         main_frame.pack(fill=tk.BOTH, expand=True)
-        
-        # Status bar at top
-        self.status_frame = ttk.Frame(main_frame)
-        self.status_frame.pack(fill=tk.X, pady=(0, 5))
-        
-        self.status_label = ttk.Label(self.status_frame, text="No config loaded")
-        self.status_label.pack(side=tk.LEFT)
-        
-        self.changes_label = ttk.Label(self.status_frame, text="")
+
+        # === Header Section ===
+        header_frame = ttk.Frame(main_frame)
+        header_frame.pack(fill=tk.X, pady=(0, 10))
+
+        # App title
+        title_label = ttk.Label(header_frame, text="ARC RAIDERS", style='Title.TLabel')
+        title_label.pack(side=tk.LEFT)
+
+        subtitle_label = ttk.Label(header_frame, text="  CONFIG TUNER",
+                                  font=('Segoe UI', 14), foreground=self.colors['text_dim'])
+        subtitle_label.pack(side=tk.LEFT)
+
+        # Status indicator on the right
+        self.changes_label = ttk.Label(header_frame, text="", style='Status.TLabel')
         self.changes_label.pack(side=tk.RIGHT)
-        
-        # Notebook for categories
+
+        # === Status Bar ===
+        self.status_frame = ttk.Frame(main_frame)
+        self.status_frame.pack(fill=tk.X, pady=(0, 10))
+
+        self.status_label = ttk.Label(self.status_frame, text="No config loaded",
+                                     style='Status.TLabel')
+        self.status_label.pack(side=tk.LEFT)
+
+        # === Notebook for categories ===
         self.notebook = ttk.Notebook(main_frame)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-        
+        self.notebook.pack(fill=tk.BOTH, expand=True, pady=(5, 10))
+
         # Create tabs by category
         categories = {}
         for key, definition in SETTINGS_DEFINITIONS.items():
             if definition.category not in categories:
                 categories[definition.category] = []
             categories[definition.category].append(definition)
-            
+
         for category, settings in categories.items():
             self._create_category_tab(category, settings)
-            
-        # Bottom button bar
+
+        # === Bottom Button Bar ===
         button_frame = ttk.Frame(main_frame)
-        button_frame.pack(fill=tk.X, pady=(10, 0))
-        
-        ttk.Button(button_frame, text="Save Changes", command=self._save_config).pack(side=tk.RIGHT, padx=5)
+        button_frame.pack(fill=tk.X, pady=(5, 0))
+
+        # Save button with accent style
+        save_btn = ttk.Button(button_frame, text="Save Changes",
+                             command=self._save_config, style='Accent.TButton')
+        save_btn.pack(side=tk.RIGHT, padx=(5, 0))
+
         ttk.Button(button_frame, text="Reload", command=self._reload_config).pack(side=tk.RIGHT, padx=5)
         ttk.Button(button_frame, text="Reset to Defaults", command=self._reset_to_defaults).pack(side=tk.RIGHT, padx=5)
         
     def _create_category_tab(self, category: str, settings: list):
-        """Create a tab for a settings category."""
+        """Create a tab for a settings category with dark theme."""
         # Create scrollable frame
         tab_frame = ttk.Frame(self.notebook)
-        self.notebook.add(tab_frame, text=category)
-        
-        # Canvas for scrolling
-        canvas = tk.Canvas(tab_frame, highlightthickness=0)
+        self.notebook.add(tab_frame, text=f"  {category}  ")  # Add padding to tab text
+
+        # Canvas for scrolling with dark background
+        canvas = tk.Canvas(tab_frame, highlightthickness=0,
+                          bg=self.colors['bg_dark'], borderwidth=0)
         scrollbar = ttk.Scrollbar(tab_frame, orient="vertical", command=canvas.yview)
         scrollable_frame = ttk.Frame(canvas)
-        
+
         scrollable_frame.bind(
             "<Configure>",
             lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
         )
-        
+
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
-        
+
         canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
+
         # Enable mousewheel scrolling
         def _on_mousewheel(event):
             canvas.yview_scroll(int(-1*(event.delta/120)), "units")
         canvas.bind_all("<MouseWheel>", _on_mousewheel)
-        
-        # Add settings
+
+        # Add settings with alternating card backgrounds for visual separation
         for i, definition in enumerate(settings):
             self._create_setting_widget(scrollable_frame, definition, i)
             
     def _create_setting_widget(self, parent: ttk.Frame, definition: SettingDefinition, row: int):
-        """Create a widget for a single setting."""
-        frame = ttk.Frame(parent, padding="10")
-        frame.pack(fill=tk.X, pady=2)
-        
+        """Create a widget for a single setting with card styling."""
+        # Card-style frame with dark theme
+        frame = ttk.Frame(parent, style='Card.TFrame', padding="12")
+        frame.pack(fill=tk.X, pady=4, padx=8)
+
         # Left side: label and description
-        left_frame = ttk.Frame(frame)
+        left_frame = ttk.Frame(frame, style='Card.TFrame')
         left_frame.pack(side=tk.LEFT, fill=tk.X, expand=True)
-        
+
         # Setting name with performance impact indicator
-        name_frame = ttk.Frame(left_frame)
+        name_frame = ttk.Frame(left_frame, style='Card.TFrame')
         name_frame.pack(fill=tk.X)
-        
+
         ttk.Label(name_frame, text=definition.display_name, style='Header.TLabel').pack(side=tk.LEFT)
-        
+
         impact_style = f'Impact.{"VeryHigh" if definition.performance_impact == "Very High" else definition.performance_impact}.TLabel'
         impact_text = f" [{definition.performance_impact} Impact]"
         ttk.Label(name_frame, text=impact_text, style=impact_style).pack(side=tk.LEFT, padx=(10, 0))
-        
+
         # Description
-        desc_label = ttk.Label(left_frame, text=definition.description, style='Description.TLabel', wraplength=500)
-        desc_label.pack(fill=tk.X)
-        
+        desc_label = ttk.Label(left_frame, text=definition.description, style='Description.TLabel', wraplength=550)
+        desc_label.pack(fill=tk.X, pady=(4, 0))
+
         # Right side: control widget
-        right_frame = ttk.Frame(frame)
+        right_frame = ttk.Frame(frame, style='Card.TFrame')
         right_frame.pack(side=tk.RIGHT, padx=(20, 0))
         
         widget = None
@@ -1157,9 +1345,9 @@ class ArcTunerApp:
     def _update_changes_label(self):
         """Update the unsaved changes indicator."""
         if self.unsaved_changes:
-            self.changes_label.config(text="● Unsaved Changes", foreground='#cc0000')
+            self.changes_label.config(text="● UNSAVED CHANGES", foreground=self.colors['warning'])
         else:
-            self.changes_label.config(text="✓ Saved", foreground='#006600')
+            self.changes_label.config(text="✓ SAVED", foreground=self.colors['success'])
             
     def _apply_preset(self, preset_name: str):
         """Apply a preset configuration."""
