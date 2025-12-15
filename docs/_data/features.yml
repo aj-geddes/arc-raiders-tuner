@@ -1,0 +1,29 @@
+- title: "Easy Settings Editor"
+  description: "Intuitive interface for adjusting graphics settings with real-time performance impact indicators. Know exactly how each change affects your FPS."
+  icon: "edit"
+  highlight: false
+
+- title: "Automatic Backups"
+  description: "Your original config is automatically backed up before every save. Restore anytime with one click if something goes wrong."
+  icon: "shield"
+  highlight: true
+
+- title: "Multiple Profiles"
+  description: "Create and save unlimited configuration profiles. Switch between streaming, competitive, and casual setups instantly."
+  icon: "layers"
+  highlight: false
+
+- title: "Built-in Presets"
+  description: "Start with expertly crafted presets: Competitive (max FPS), Balanced (great visuals + performance), Quality (beautiful graphics), and Cinematic (ultra settings)."
+  icon: "star"
+  highlight: true
+
+- title: "Zero Dependencies"
+  description: "Single executable file, no installation required. No .NET, no runtime dependencies. Download, run, done."
+  icon: "download"
+  highlight: false
+
+- title: "Open Source"
+  description: "MIT licensed and completely open source. Review the code, contribute improvements, or fork for your own projects."
+  icon: "code"
+  highlight: true

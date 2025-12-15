@@ -1,0 +1,170 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- SEO Meta Tags -->
+<title>{% if page.title %}{{ page.title }} | {% endif %}Arc Raiders Config Tuner - Windows Desktop Application</title>
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Arc Raiders Config Tuner: A powerful Windows desktop application for optimizing Arc Raiders game settings. Built with Python and customtkinter for an intuitive dark-themed interface.{% endif %}">
+<meta name="keywords" content="Arc Raiders, config tuner, game settings, Windows app, Python, customtkinter, game optimization, Embark Studios">
+<meta name="author" content="High Velocity Solutions LLC">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+<!-- Open Graph Tags -->
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}Optimize your Arc Raiders game settings with our intuitive Windows desktop application{% endif %}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:image" content="{{ site.url }}/assets/images/logo.png">
+<meta property="og:site_name" content="Arc Raiders Config Tuner">
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}Arc Raiders Config Tuner{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}Optimize your Arc Raiders game settings with our intuitive Windows desktop application{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}/assets/images/logo.png">
+
+<!-- Structured Data JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Arc Raiders Config Tuner",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Windows",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "A powerful Windows desktop application for optimizing Arc Raiders game settings with an intuitive dark-themed interface.",
+  "author": {
+    "@type": "Organization",
+    "name": "High Velocity Solutions LLC"
+  },
+  "downloadUrl": "{{ site.github.repository_url }}/releases",
+  "softwareVersion": "{{ site.version | default: '1.0.0' }}",
+  "datePublished": "2025-12-15",
+  "screenshot": "{{ site.url }}/assets/images/logo.png"
+}
+</script>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{{ site.baseurl }}/assets/images/logo.png">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+
+<!-- Dark Theme Inline Styles -->
+<style>
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --accent-orange: #ff6b00;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  a {
+    color: var(--accent-orange);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  a:hover {
+    color: #ff8533;
+    text-decoration: underline;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    border-bottom: 3px solid var(--accent-orange);
+    padding-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    color: var(--accent-orange);
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  code {
+    background-color: var(--bg-secondary);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  pre {
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-orange);
+    color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #ff8533;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 107, 0, 0.3);
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>

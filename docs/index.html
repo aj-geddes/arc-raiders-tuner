@@ -1,0 +1,188 @@
+---
+layout: default
+title: Arc Raiders Config Tuner - Free Graphics Settings Manager
+description: Free, open-source tool to easily configure Arc Raiders graphics settings. Tune DLSS, FSR, Ray Tracing, Reflex and more with automatic backups.
+keywords: Arc Raiders, config, settings, DLSS, FSR, Ray Tracing, Reflex, graphics, tuner, optimizer
+---
+
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-title">ARC RAIDERS CONFIG TUNER</h1>
+    <p class="hero-tagline">Tune your graphics. Dominate the battlefield.</p>
+    <p class="hero-description">
+      A free, open-source tool designed to help Arc Raiders players easily configure and optimize their graphics settings.
+      Whether you're looking to maximize performance, enhance visual quality, or fine-tune features like DLSS, FSR, Ray Tracing,
+      and Reflex, this tool provides a simple interface to manage all your configuration options with automatic backups.
+    </p>
+    <div class="hero-buttons">
+      <a href="https://github.com/aj-geddes/arc-raiders-tuner/releases/latest" class="btn btn-primary">Download Now</a>
+      <a href="https://github.com/aj-geddes/arc-raiders-tuner" class="btn btn-secondary">View on GitHub</a>
+    </div>
+    <p class="hero-note">
+      <strong>Note:</strong> Windows SmartScreen may show a warning when running the executable.
+      This is normal for unsigned applications. Click "More info" then "Run anyway" to proceed.
+    </p>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Features</h2>
+    <div class="features-grid">
+      {% for feature in site.data.features %}
+      <div class="feature-card">
+        <div class="feature-icon">
+          <span class="icon-placeholder">{{ feature.icon }}</span>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="screenshots">
+  <div class="container">
+    <h2 class="section-title">See It In Action</h2>
+    <p class="screenshots-description">
+      Clean, intuitive interface with organized sections for all your graphics settings.
+      Navigate through categories, adjust values with ease, and apply changes instantly.
+    </p>
+    <div class="ascii-art-container">
+      <pre><code>┌─────────────────────────────────────────────────────────────────────────────────┐
+│                         ARC RAIDERS CONFIG TUNER v1.0                           │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  Current Config: C:\Users\...\AppData\Local\Arc\Saved\Config\...              │
+│                                                                                 │
+│  ┌─ UPSCALING ─────────────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │  DLSS Mode:        [Quality ▼]                                          │  │
+│  │  DLSS-FG:          [✓] Enabled                                          │  │
+│  │  XeSS:             [✓] Enabled                                          │  │
+│  │  FSR Mode:         [Performance ▼]                                      │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─ RAY TRACING ───────────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │  Ray Tracing:      [✓] Enabled                                          │  │
+│  │  RT Reflections:   [✓] Enabled                                          │  │
+│  │  RT Shadows:       [✓] Enabled                                          │  │
+│  │  RT AO:            [✓] Enabled                                          │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─ LATENCY ───────────────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │  Reflex Mode:      [Enabled + Boost ▼]                                  │  │
+│  │  Anti-Lag 2:       [✓] Enabled                                          │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  [Apply Changes]  [Restore Backup]  [Reset to Defaults]  [Exit]              │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="supported-settings">
+  <div class="container">
+    <h2 class="section-title">Supported Settings</h2>
+    <div class="settings-categories">
+      <div class="settings-category">
+        <h3 class="category-title">Upscaling Technologies</h3>
+        <ul class="settings-list">
+          <li>NVIDIA DLSS (Deep Learning Super Sampling)</li>
+          <li>Intel XeSS (Xe Super Sampling)</li>
+          <li>AMD FSR (FidelityFX Super Resolution)</li>
+        </ul>
+      </div>
+
+      <div class="settings-category">
+        <h3 class="category-title">Frame Generation</h3>
+        <ul class="settings-list">
+          <li>DLSS Frame Generation</li>
+          <li>FSR Frame Generation</li>
+        </ul>
+      </div>
+
+      <div class="settings-category">
+        <h3 class="category-title">Latency Reduction</h3>
+        <ul class="settings-list">
+          <li>NVIDIA Reflex (Off, On, On + Boost)</li>
+          <li>AMD Anti-Lag / Anti-Lag 2</li>
+        </ul>
+      </div>
+
+      <div class="settings-category">
+        <h3 class="category-title">Ray Tracing</h3>
+        <ul class="settings-list">
+          <li>Ray Traced Reflections</li>
+          <li>Ray Traced Shadows</li>
+          <li>Ray Traced Ambient Occlusion</li>
+          <li>Ray Traced Global Illumination</li>
+        </ul>
+      </div>
+
+      <div class="settings-category">
+        <h3 class="category-title">Display Settings</h3>
+        <ul class="settings-list">
+          <li>Resolution</li>
+          <li>Display Mode (Fullscreen, Windowed, Borderless)</li>
+          <li>VSync</li>
+          <li>Frame Rate Limit</li>
+        </ul>
+      </div>
+
+      <div class="settings-category">
+        <h3 class="category-title">Quality Settings</h3>
+        <ul class="settings-list">
+          <li>View Distance</li>
+          <li>Anti-Aliasing</li>
+          <li>Post Processing</li>
+          <li>Shadows Quality</li>
+          <li>Texture Quality</li>
+          <li>Effects Quality</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="download">
+  <div class="container">
+    <h2 class="section-title">Ready to Optimize?</h2>
+    <p class="download-description">
+      Download the latest version and start tuning your Arc Raiders experience today.
+    </p>
+    <div class="download-button-container">
+      <a href="https://github.com/aj-geddes/arc-raiders-tuner/releases/latest" class="btn btn-primary btn-large">
+        Download Latest Release
+      </a>
+    </div>
+
+    <div class="system-requirements">
+      <h3 class="requirements-title">System Requirements</h3>
+      <ul class="requirements-list">
+        <li><strong>Operating System:</strong> Windows 10 or Windows 11</li>
+        <li><strong>For Executable:</strong> No additional requirements</li>
+        <li><strong>For Source Code:</strong> Python 3.8 or higher</li>
+      </ul>
+    </div>
+
+    <div class="smartscreen-warning">
+      <h3 class="warning-title">About Windows SmartScreen</h3>
+      <p>
+        When you first run the executable, Windows SmartScreen may display a warning message.
+        This is a standard security feature for unsigned applications and does not indicate malware.
+        The source code is completely open and available for review on GitHub.
+      </p>
+      <p>
+        <strong>To proceed:</strong> Click "More info" on the SmartScreen dialog, then click "Run anyway".
+      </p>
+    </div>
+  </div>
+</section>

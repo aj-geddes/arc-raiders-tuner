@@ -1,0 +1,90 @@
+# Site settings
+title: "Arc Raiders Config Tuner"
+description: "Free, open-source graphics configuration tool for Arc Raiders. Easily tune DLSS, FSR, Ray Tracing, Reflex, and more with automatic backups and preset profiles."
+url: "https://aj-geddes.github.io"
+baseurl: "/arc-raiders-tuner"
+
+# Site identity
+logo: /assets/images/logo.png
+author:
+  name: "AJ Geddes"
+  email: "aj@geddes.dev"
+  url: "https://github.com/aj-geddes"
+
+# Repository information
+repository: "aj-geddes/arc-raiders-tuner"
+github_username: aj-geddes
+
+# Social links
+social:
+  github: "https://github.com/aj-geddes/arc-raiders-tuner"
+  links:
+    - "https://github.com/aj-geddes/arc-raiders-tuner"
+
+# Theme settings (using custom CSS instead of remote theme)
+theme: null
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+
+# Sass/SCSS settings
+sass:
+  style: compressed
+  sass_dir: _sass
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+# SEO settings
+lang: en_US
+timezone: UTC
+
+# Collections
+collections:
+  features:
+    output: false
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+      image: /assets/images/og-image.png
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# Include files
+include:
+  - _pages
+
+# Permalinks
+permalink: pretty
+
+# Site metadata for SEO
+twitter:
+  card: summary_large_image
+  username: aj_geddes
+
+# OpenGraph defaults
+og_image: /assets/images/og-image.png
+
+# Additional metadata
+keywords: "Arc Raiders, config tool, DLSS, FSR, Ray Tracing, Reflex, gaming optimization, graphics settings, Unreal Engine"
