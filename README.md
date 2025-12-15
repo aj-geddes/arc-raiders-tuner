@@ -45,8 +45,10 @@ A secure, user-friendly configuration manager for Arc Raiders. Easily tune your 
 ## Installation
 
 ### Option 1: Download Pre-built Executable (Recommended)
-1. Download `ArcRaidersTuner.exe` from the Releases page
+1. Download `ArcRaidersTuner.exe` from the [Releases page](https://github.com/aj-geddes/arc-raiders-tuner/releases)
 2. Run it - no installation required!
+
+> **Windows SmartScreen Warning:** You may see a "Windows protected your PC" warning because the app is not signed with a commercial certificate. This is normal for open-source software. Click **"More info"** → **"Run anyway"** to proceed. The app is safe - you can review the full source code in this repository.
 
 ### Option 2: Run from Source
 ```bash

@@ -54,6 +54,8 @@ jobs:
             1. Download `ArcRaidersTuner.exe` below
             2. Run it - no installation required!
 
+            > **Note:** Windows may show a SmartScreen warning since the app is not signed with a commercial certificate. Click **"More info"** → **"Run anyway"** to proceed. This is normal for open-source applications.
+
             ### Features
             - Easy-to-use settings editor with performance impact indicators
             - Automatic backups before every save
